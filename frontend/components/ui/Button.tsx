@@ -7,7 +7,6 @@ import {
   TextStyle,
   ActivityIndicator,
 } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
 
 interface ButtonProps {
