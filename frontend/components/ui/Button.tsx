@@ -40,23 +40,16 @@ export const Button: React.FC<ButtonProps> = ({
       <TouchableOpacity
         onPress={onPress}
         disabled={isDisabled}
-        style={[styles.button, { height: buttonHeight, opacity: isDisabled ? 0.6 : 1 }, style]}
+        style={[styles.button, styles.primaryButton, { height: buttonHeight, opacity: isDisabled ? 0.6 : 1 }, style]}
         activeOpacity={0.8}
       >
-        <LinearGradient
-          colors={[Colors.primary.start, Colors.primary.end]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.gradientButton}
-        >
-          {loading ? (
-            <ActivityIndicator color="#FFFFFF" size="small" />
-          ) : (
-            <Text style={[styles.primaryButtonText, { fontSize }, textStyle]}>
-              {title}
-            </Text>
-          )}
-        </LinearGradient>
+        {loading ? (
+          <ActivityIndicator color="#FFFFFF" size="small" />
+        ) : (
+          <Text style={[styles.primaryButtonText, { fontSize }, textStyle]}>
+            {title}
+          </Text>
+        )}
       </TouchableOpacity>
     );
   }
