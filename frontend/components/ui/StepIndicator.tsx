@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
 
 interface StepIndicatorProps {
