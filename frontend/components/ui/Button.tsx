@@ -94,12 +94,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     minHeight: 44, // Minimum touch target for accessibility
   },
-  gradientButton: {
-    flex: 1,
-    width: '100%',
-    borderRadius: BorderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+  primaryButton: {
+    backgroundColor: Colors.primary.start,
   },
   secondaryButton: {
     backgroundColor: Colors.secondary,
