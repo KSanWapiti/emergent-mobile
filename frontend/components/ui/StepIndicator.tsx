@@ -23,12 +23,9 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
             <React.Fragment key={stepNumber}>
               <View style={[styles.stepWrapper]}>
                 {isCompleted ? (
-                  <LinearGradient
-                    colors={[Colors.primary.start, Colors.primary.end]}
-                    style={styles.stepActive}
-                  >
+                  <View style={styles.stepActive}>
                     <Text style={styles.stepActiveText}>{stepNumber}</Text>
-                  </LinearGradient>
+                  </View>
                 ) : (
                   <View style={styles.stepInactive}>
                     <Text style={styles.stepInactiveText}>{stepNumber}</Text>
