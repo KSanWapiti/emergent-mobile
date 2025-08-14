@@ -3,11 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
 import { router } from 'expo-router';
 import { Colors, Spacing, FontSizes, BorderRadius } from '../constants/Colors';
 
@@ -23,12 +21,7 @@ export default function WelcomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        colors={[Colors.primary.start, Colors.primary.end]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gradient}
-      >
+      <View style={styles.gradient}>
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.logo}>Tyte</Text>
@@ -59,7 +52,7 @@ export default function WelcomeScreen() {
             </Text>
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </SafeAreaView>
   );
 }
