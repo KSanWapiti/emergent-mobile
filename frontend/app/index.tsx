@@ -1,30 +1,76 @@
-import { Text, View, StyleSheet, Image } from "react-native";
-
-const EXPO_PUBLIC_BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  SafeAreaView,
+} from 'react-native';
+import { router } from 'expo-router';
+import { Colors, Spacing, FontSizes } from '../constants/Colors';
 
 export default function Index() {
-  console.log(EXPO_PUBLIC_BACKEND_URL, "EXPO_PUBLIC_BACKEND_URL");
+  const [loading, setLoading] = useState(true);
 
-  return (
-    <View style={styles.container}>
-      <Image
-        source={require("../assets/images/app-image.png")}
-        style={styles.image}
-      />
-    </View>
-  );
+  useEffect(() => {
+    // Check if user is authenticated
+    const checkAuth = async () => {
+      try {
+        // TODO: Check if user is logged in (check token, etc.)
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate auth check
+        
+        // For now, always redirect to welcome
+        router.replace('/welcome');
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        router.replace('/welcome');
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.logo}>Tyte</Text>
+          <ActivityIndicator 
+            size="large" 
+            color={Colors.secondary} 
+            style={styles.loader}
+          />
+          <Text style={styles.loadingText}>Chargement...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  return null;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0c0c0c",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: Colors.background.primary,
   },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.xl,
+  },
+  logo: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+    marginBottom: Spacing.xl,
+  },
+  loader: {
+    marginBottom: Spacing.lg,
+  },
+  loadingText: {
+    fontSize: FontSizes.md,
+    color: Colors.text.secondary,
   },
 });
