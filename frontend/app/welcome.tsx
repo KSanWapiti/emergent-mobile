@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+    backgroundColor: Colors.primary.start, // Use solid color instead of gradient
   },
   content: {
     flex: 1,
