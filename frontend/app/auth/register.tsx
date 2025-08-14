@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Alert } from 'react-native';
 import { Step1Form } from '../../components/forms/Step1Form';
 import { Step2Form } from '../../components/forms/Step2Form';
 import { Step3Form } from '../../components/forms/Step3Form';
@@ -18,11 +18,13 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
 
   const handleStep1Next = (data: Step1FormData) => {
+    console.log('Step 1 data:', data);
     setRegistrationData(prev => ({ ...prev, step1: data }));
     setCurrentStep(2);
   };
 
   const handleStep2Next = (data: Step2FormData) => {
+    console.log('Step 2 data:', data);
     setRegistrationData(prev => ({ ...prev, step2: data }));
     setCurrentStep(3);
   };
@@ -36,17 +38,29 @@ export default function RegisterScreen() {
         ...data,
       };
 
-      // TODO: Call API to register user
-      console.log('Registration data:', completeData);
+      console.log('Complete registration data:', completeData);
       
-      // Simulate API call
+      // Mock API call - simulate successful registration
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Navigate to success or main app
-      router.replace('/');
+      Alert.alert(
+        'Inscription réussie!',
+        'Votre compte Tyte a été créé avec succès.',
+        [
+          {
+            text: 'Continuer',
+            onPress: () => router.replace('/welcome')
+          }
+        ]
+      );
+      
     } catch (error) {
       console.error('Registration failed:', error);
-      // Handle error (show alert, etc.)
+      Alert.alert(
+        'Erreur',
+        'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.',
+        [{ text: 'OK' }]
+      );
     } finally {
       setLoading(false);
     }
