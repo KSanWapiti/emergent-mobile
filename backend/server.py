@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -6,9 +6,10 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Optional
 import uuid
 from datetime import datetime
+import bcrypt
 
 
 ROOT_DIR = Path(__file__).parent
@@ -26,6 +27,37 @@ app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 
+# User Models
+class UserRegistration(BaseModel):
+    pseudo: str
+    firstName: str
+    lastName: str
+    height: int
+    dateOfBirth: str
+    gender: str
+    bodyType: str
+    city: str
+
+class UserResponse(BaseModel):
+    id: str
+    pseudo: str
+    firstName: str
+    lastName: str
+    height: int
+    dateOfBirth: str
+    gender: str
+    bodyType: str
+    city: str
+    createdAt: datetime
+    updatedAt: datetime
+
+class CheckPseudoRequest(BaseModel):
+    pseudo: str
+
+class CheckPseudoResponse(BaseModel):
+    available: bool
+    message: str
+
 # Define Models
 class StatusCheck(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -35,10 +67,76 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-# Add your routes to the router instead of directly to app
+# User Registration Endpoints
+@api_router.post("/check-pseudo", response_model=CheckPseudoResponse)
+async def check_pseudo_availability(request: CheckPseudoRequest):
+    """Check if a pseudo is available"""
+    try:
+        existing_user = await db.users.find_one({"pseudo": request.pseudo})
+        
+        if existing_user:
+            return CheckPseudoResponse(
+                available=False,
+                message="Ce pseudo est déjà utilisé"
+            )
+        else:
+            return CheckPseudoResponse(
+                available=True,
+                message="Ce pseudo est disponible"
+            )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/register", response_model=UserResponse)
+async def register_user(user_data: UserRegistration):
+    """Register a new user"""
+    try:
+        # Check if pseudo is already taken
+        existing_user = await db.users.find_one({"pseudo": user_data.pseudo})
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Ce pseudo est déjà utilisé")
+        
+        # Create user document
+        user_doc = {
+            "id": str(uuid.uuid4()),
+            "pseudo": user_data.pseudo,
+            "firstName": user_data.firstName,
+            "lastName": user_data.lastName,
+            "height": user_data.height,
+            "dateOfBirth": user_data.dateOfBirth,
+            "gender": user_data.gender,
+            "bodyType": user_data.bodyType,
+            "city": user_data.city,
+            "createdAt": datetime.utcnow(),
+            "updatedAt": datetime.utcnow()
+        }
+        
+        # Insert user into database
+        result = await db.users.insert_one(user_doc)
+        
+        if result.inserted_id:
+            return UserResponse(**user_doc)
+        else:
+            raise HTTPException(status_code=500, detail="Failed to create user")
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/users", response_model=List[UserResponse])
+async def get_users():
+    """Get all users (for testing purposes)"""
+    try:
+        users = await db.users.find().to_list(1000)
+        return [UserResponse(**user) for user in users]
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Existing endpoints
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Tyte API is running"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
