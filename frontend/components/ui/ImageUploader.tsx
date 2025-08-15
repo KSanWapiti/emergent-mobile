@@ -115,7 +115,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     if (value) {
       setShowActions(true);
     } else {
-      pickImage();
+      pickMedia();
     }
   };
 
