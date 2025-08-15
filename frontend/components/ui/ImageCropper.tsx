@@ -8,7 +8,8 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import DynamicImageCrop from 'expo-dynamic-image-crop';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
 
 interface ImageCropperProps {
@@ -29,31 +30,54 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
   aspectRatio = [3, 4],
 }) => {
   const [cropping, setCropping] = useState(false);
+  const [cropData, setCropData] = useState<any>(null);
 
   const handleCrop = async () => {
+    if (!cropData) {
+      Alert.alert('Erreur', 'Veuillez ajuster le cadrage avant de continuer');
+      return;
+    }
+
     try {
       setCropping(true);
       
-      // Use Expo's built-in image picker with editing enabled
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: aspectRatio,
-        quality: 0.8,
-        base64: true,
-      });
+      const { originX, originY, width, height } = cropData;
+      
+      // Use Expo Image Manipulator to crop the image
+      const result = await ImageManipulator.manipulateAsync(
+        imageUri,
+        [
+          {
+            crop: {
+              originX,
+              originY,
+              width,
+              height,
+            },
+          },
+        ],
+        {
+          compress: 0.8,
+          format: ImageManipulator.SaveFormat.JPEG,
+          base64: true,
+        }
+      );
 
-      if (!result.canceled && result.assets[0]) {
-        const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      if (result.base64) {
+        const base64Image = `data:image/jpeg;base64,${result.base64}`;
         onCropComplete(base64Image);
         onClose();
       }
     } catch (error) {
-      console.log('Crop cancelled or failed:', error);
+      console.log('Crop error:', error);
       Alert.alert('Erreur', 'Impossible de recadrer l\'image');
     } finally {
       setCropping(false);
     }
+  };
+
+  const handleCropDataChange = (data: any) => {
+    setCropData(data);
   };
 
   return (
@@ -67,15 +91,20 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Recadrer la photo</Text>
           
-          <Text style={styles.instructions}>
-            Sélectionnez une nouvelle image avec recadrage automatique
-          </Text>
+          <View style={styles.cropContainer}>
+            <DynamicImageCrop
+              uri={imageUri}
+              fixedAspectRatio={aspectRatio[0] / aspectRatio[1]}
+              onCropDataChange={handleCropDataChange}
+              style={styles.cropView}
+            />
+          </View>
           
           <View style={styles.buttonContainer}>
             <TouchableOpacity 
               style={[styles.actionButton, styles.cropButton]} 
               onPress={handleCrop}
-              disabled={cropping}
+              disabled={cropping || !cropData}
             >
               <Text style={[styles.actionButtonText, styles.cropButtonText]}>
                 {cropping ? 'Recadrage...' : '✂️ Recadrer'}
