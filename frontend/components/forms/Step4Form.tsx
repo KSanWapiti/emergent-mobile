@@ -114,7 +114,7 @@ export const Step4Form: React.FC<Step4FormProps> = ({
           <View style={GlobalStyles.buttonContainer}>
             <Button
               title="Ignorer (test)"
-              onPress={() => handleSubmit(() => onNext({ portraitPhoto: '', fullBodyPhoto: '' }))()}
+              onPress={handleSkipPhotos}
               variant="outline"
               size="large"
               style={GlobalStyles.backButton}
