@@ -47,10 +47,12 @@ export const step3Schema = z.object({
 export const step4Schema = z.object({
   portraitPhoto: z
     .string()
-    .optional(), // Temporairement optionnel pour permettre les tests
+    .optional()
+    .or(z.literal('')), // Accepte explicitement les chaînes vides
   fullBodyPhoto: z
     .string()
-    .optional(), // Temporairement optionnel pour permettre les tests
+    .optional()
+    .or(z.literal('')), // Accepte explicitement les chaînes vides
 });
 
 export const step5Schema = z.object({
