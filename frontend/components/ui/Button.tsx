@@ -68,6 +68,53 @@ export const Button: React.FC<ButtonProps> = ({
     }
   };
 
+  const buttonContent = (
+    <>
+      {loading ? (
+        <ActivityIndicator 
+          color={variant === 'outline' ? '#FF5CA0' : '#FFFFFF'} 
+          size="small" 
+        />
+      ) : (
+        <Text style={[getTextStyle(), { fontSize }, textStyle]}>
+          {title}
+        </Text>
+      )}
+    </>
+  );
+
+  if (gradient && !disabled) {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        disabled={isDisabled}
+        style={[
+          ButtonStyles.button,
+          getButtonStyle(),
+          { height: buttonHeight, backgroundColor: 'transparent', opacity: isDisabled ? 0.6 : 1 },
+          style,
+        ]}
+        activeOpacity={0.8}
+      >
+        <LinearGradient
+          colors={['#C04AFF', '#FF5CA0']} // Purple to pink gradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 12,
+            flexDirection: 'row',
+            height: buttonHeight,
+          }}
+        >
+          {buttonContent}
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -80,16 +127,7 @@ export const Button: React.FC<ButtonProps> = ({
       ]}
       activeOpacity={0.8}
     >
-      {loading ? (
-        <ActivityIndicator 
-          color={variant === 'outline' ? '#FF5CA0' : '#FFFFFF'} 
-          size="small" 
-        />
-      ) : (
-        <Text style={[getTextStyle(), { fontSize }, textStyle]}>
-          {title}
-        </Text>
-      )}
+      {buttonContent}
     </TouchableOpacity>
   );
 };
