@@ -33,6 +33,15 @@ export const GlobalStyles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
 
+  // Gradient title for special pages
+  gradientTitle: {
+    fontSize: FontSizes.title,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: Spacing.md,
+    // Note: This will be handled by a gradient text component since RN doesn't support gradient text directly
+  },
+
   subtitle: {
     fontSize: FontSizes.md,
     color: Colors.text.secondary,
