@@ -5,15 +5,15 @@ import {
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
-  Alert,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { StepIndicator } from '../ui/StepIndicator';
+import { GradientText } from '../ui/GradientText';
 import { step2Schema, Step2FormData } from '../../utils/validation';
 import { GlobalStyles } from '../../styles/GlobalStyles';
+import { Colors, FontSizes, Spacing } from '../../constants/Colors';
 
 interface Step2FormProps {
   onNext: (data: Step2FormData) => void;
@@ -54,11 +54,17 @@ export const Step2Form: React.FC<Step2FormProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={GlobalStyles.container}
     >
+      {/* Header avec barre de progression */}
+      <View style={styles.progressHeader}>
+        <View style={styles.progressBar}>
+          <View style={[styles.progressFill, { width: '66%' }]} />
+        </View>
+      </View>
+
       <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
         <View style={GlobalStyles.content}>
-          <StepIndicator totalSteps={3} currentStep={2} />
-          
           <View style={GlobalStyles.header}>
+            <GradientText style={styles.mainTitle}>Création du profil</GradientText>
             <Text style={GlobalStyles.title}>Informations personnelles</Text>
             <Text style={GlobalStyles.subtitle}>
               Aidez-nous à mieux vous connaître avec quelques informations de base
@@ -148,7 +154,7 @@ export const Step2Form: React.FC<Step2FormProps> = ({
             style={GlobalStyles.backButton}
           />
           <Button
-            title="Continuer"
+            title="Suivant"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             size="large"
@@ -158,4 +164,29 @@ export const Step2Form: React.FC<Step2FormProps> = ({
       </View>
     </KeyboardAvoidingView>
   );
+};
+
+const styles = {
+  progressHeader: {
+    paddingTop: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.md,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 2,
+    overflow: 'hidden' as const,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.secondary,
+    borderRadius: 2,
+  },
+  mainTitle: {
+    fontSize: FontSizes.title,
+    fontWeight: 'bold' as const,
+    textAlign: 'center' as const,
+    marginBottom: Spacing.xs,
+  },
 };

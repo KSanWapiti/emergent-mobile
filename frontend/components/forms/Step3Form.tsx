@@ -11,10 +11,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { StepIndicator } from '../ui/StepIndicator';
+import { GradientText } from '../ui/GradientText';
 import { step3Schema, Step3FormData } from '../../utils/validation';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import { ButtonStyles } from '../../styles/ButtonStyles';
+import { Colors, FontSizes, Spacing } from '../../constants/Colors';
 
 interface Step3FormProps {
   onNext: (data: Step3FormData) => void;
@@ -85,11 +86,17 @@ export const Step3Form: React.FC<Step3FormProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={GlobalStyles.container}
     >
+      {/* Header avec barre de progression */}
+      <View style={styles.progressHeader}>
+        <View style={styles.progressBar}>
+          <View style={[styles.progressFill, { width: '100%' }]} />
+        </View>
+      </View>
+
       <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
         <View style={GlobalStyles.content}>
-          <StepIndicator totalSteps={3} currentStep={3} />
-          
           <View style={GlobalStyles.header}>
+            <GradientText style={styles.mainTitle}>Création du profil</GradientText>
             <Text style={GlobalStyles.title}>Présentez-vous</Text>
             <Text style={GlobalStyles.subtitle}>
               Ces informations nous aident à créer de meilleures connexions
@@ -182,4 +189,29 @@ export const Step3Form: React.FC<Step3FormProps> = ({
       </View>
     </KeyboardAvoidingView>
   );
+};
+
+const styles = {
+  progressHeader: {
+    paddingTop: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.md,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 2,
+    overflow: 'hidden' as const,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.secondary,
+    borderRadius: 2,
+  },
+  mainTitle: {
+    fontSize: FontSizes.title,
+    fontWeight: 'bold' as const,
+    textAlign: 'center' as const,
+    marginBottom: Spacing.xs,
+  },
 };
