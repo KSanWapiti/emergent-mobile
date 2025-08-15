@@ -53,7 +53,17 @@ export const step4Schema = z.object({
     .min(1, 'Une photo en pied est requise'),
 });
 
+export const step5Schema = z.object({
+  maxMessagesPerDay: z
+    .enum(['0', '3', '5', '10'])
+    .refine((val) => val !== '', 'Veuillez sélectionner le nombre de messages'),
+  maxInvitationsPerDay: z
+    .enum(['0', '3', '5', '10'])
+    .refine((val) => val !== '', 'Veuillez sélectionner le nombre d\'invitations'),
+});
+
 export type Step1FormData = z.infer<typeof step1Schema>;
 export type Step2FormData = z.infer<typeof step2Schema>;
 export type Step3FormData = z.infer<typeof step3Schema>;
 export type Step4FormData = z.infer<typeof step4Schema>;
+export type Step5FormData = z.infer<typeof step5Schema>;

@@ -4,7 +4,8 @@ import { Step1Form } from '../../components/forms/Step1Form';
 import { Step2Form } from '../../components/forms/Step2Form';
 import { Step3Form } from '../../components/forms/Step3Form';
 import { Step4Form } from '../../components/forms/Step4Form';
-import { Step1FormData, Step2FormData, Step3FormData, Step4FormData } from '../../utils/validation';
+import { Step5Form } from '../../components/forms/Step5Form';
+import { Step1FormData, Step2FormData, Step3FormData, Step4FormData, Step5FormData } from '../../utils/validation';
 import { router } from 'expo-router';
 
 type RegistrationData = {
@@ -12,6 +13,7 @@ type RegistrationData = {
   step2?: Step2FormData;
   step3?: Step3FormData;
   step4?: Step4FormData;
+  step5?: Step5FormData;
 };
 
 export default function RegisterScreen() {
@@ -37,13 +39,20 @@ export default function RegisterScreen() {
     setCurrentStep(4);
   };
 
-  const handleStep4Next = async (data: Step4FormData) => {
+  const handleStep4Next = (data: Step4FormData) => {
+    console.log('Step 4 data:', data);
+    setRegistrationData(prev => ({ ...prev, step4: data }));
+    setCurrentStep(5);
+  };
+
+  const handleStep5Next = async (data: Step5FormData) => {
     setLoading(true);
     try {
       const completeData = {
         ...registrationData.step1!,
         ...registrationData.step2!,
         ...registrationData.step3!,
+        ...registrationData.step4!,
         ...data,
       };
 
@@ -54,10 +63,10 @@ export default function RegisterScreen() {
       
       Alert.alert(
         'Inscription réussie!',
-        'Votre compte Tyte a été créé avec succès.',
+        'Votre profil Tyte a été créé avec succès. Bienvenue dans la communauté !',
         [
           {
-            text: 'Continuer',
+            text: 'Commencer',
             onPress: () => router.replace('/welcome')
           }
         ]
@@ -103,7 +112,6 @@ export default function RegisterScreen() {
           onNext={handleStep3Next}
           onBack={handleBack}
           defaultValues={registrationData.step3}
-          loading={loading}
         />
       )}
       {currentStep === 4 && (
@@ -111,6 +119,13 @@ export default function RegisterScreen() {
           onNext={handleStep4Next}
           onBack={handleBack}
           defaultValues={registrationData.step4}
+        />
+      )}
+      {currentStep === 5 && (
+        <Step5Form
+          onNext={handleStep5Next}
+          onBack={handleBack}
+          defaultValues={registrationData.step5}
           loading={loading}
         />
       )}
