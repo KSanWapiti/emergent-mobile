@@ -68,7 +68,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
       if (!result.canceled && result.assets[0]) {
         const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
-        onImageChange(base64Image);
+        handleImageChange(base64Image);
         setShowActions(false);
       }
     } catch (error) {
