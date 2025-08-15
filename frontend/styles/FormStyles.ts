@@ -171,6 +171,40 @@ export const FormStyles = StyleSheet.create({
     color: Colors.text.secondary,
     marginBottom: Spacing.sm,
   },
+  
+  // Media section styles
+  mediaSection: {
+    marginBottom: Spacing.xl,
+  },
+  mediaSectionTitle: {
+    fontSize: FontSizes.lg,
+    fontWeight: '600',
+    color: Colors.text.primary,
+    marginBottom: Spacing.lg,
+    textAlign: 'center',
+  },
+  
+  // Video uploader styles
+  videoUploader: {
+    height: 200,
+    marginBottom: Spacing.lg,
+  },
+  
+  // Photos grid styles
+  photosGrid: {
+    gap: Spacing.md,
+  },
+  photosRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.md,
+    gap: Spacing.md,
+  },
+  gridPhotoUploader: {
+    flex: 1,
+    aspectRatio: 1,
+    minHeight: 100,
+  },
 
   sectionTitle: {
     fontSize: FontSizes.lg,
