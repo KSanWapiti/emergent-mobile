@@ -28,27 +28,7 @@ export const step2Schema = z.object({
   dateOfBirth: z
     .string()
     .min(1, 'La date de naissance est requise')
-    .regex(/^\d{2}\/\d{2}\/\d{4}$/, 'Format invalide. Utilisez DD/MM/YYYY')
-    .refine((val) => {
-      // Parse DD/MM/YYYY format  
-      const [dayStr, monthStr, yearStr] = val.split('/');
-      const day = parseInt(dayStr);
-      const month = parseInt(monthStr);
-      const year = parseInt(yearStr);
-      
-      // Validate basic date format
-      if (isNaN(day) || isNaN(month) || isNaN(year)) return false;
-      if (day < 1 || day > 31) return false;
-      if (month < 1 || month > 12) return false;
-      if (year < 1900 || year > 2015) return false; // More lenient range
-      
-      // Simple age calculation
-      const currentYear = 2025; // Hardcode current year for testing
-      const age = currentYear - year;
-      
-      // For 1999: 2025 - 1999 = 26 years old (should pass)
-      return age >= 18 && age <= 80; // More lenient age range
-    }, 'Vous devez avoir entre 18 et 80 ans'),
+    .regex(/^\d{2}\/\d{2}\/\d{4}$/, 'Format invalide. Utilisez DD/MM/YYYY'),
 });
 
 export const step3Schema = z.object({
