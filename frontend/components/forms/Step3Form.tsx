@@ -1,21 +1,21 @@
 import React from 'react';
 import {
   View,
-  Text,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { GradientText } from '../ui/GradientText';
+import { ProgressBar } from '../ui/ProgressBar';
+import { StepHeader } from '../ui/StepHeader';
 import { step3Schema, Step3FormData } from '../../utils/validation';
-import { GlobalStyles } from '../../styles/GlobalStyles';
+import { FormStyles } from '../../styles/FormStyles';
 import { ButtonStyles } from '../../styles/ButtonStyles';
-import { Colors, FontSizes, Spacing } from '../../constants/Colors';
 
 interface Step3FormProps {
   onNext: (data: Step3FormData) => void;
@@ -52,7 +52,6 @@ export const Step3Form: React.FC<Step3FormProps> = ({
     control,
     handleSubmit,
     formState: { errors, isValid },
-    setValue,
     watch,
   } = useForm<Step3FormData>({
     resolver: zodResolver(step3Schema),
@@ -84,33 +83,25 @@ export const Step3Form: React.FC<Step3FormProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={GlobalStyles.container}
+      style={FormStyles.stepContainer}
     >
-      {/* Header avec barre de progression */}
-      <View style={styles.progressHeader}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '60%' }]} />
-        </View>
-      </View>
+      <ProgressBar progress={60} />
 
-      <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
-        <View style={GlobalStyles.content}>
-          <View style={GlobalStyles.header}>
-            <GradientText style={styles.mainTitle}>Création du profil</GradientText>
-            <Text style={GlobalStyles.title}>Présentez-vous</Text>
-            <Text style={GlobalStyles.subtitle}>
-              Ces informations nous aident à créer de meilleures connexions
-            </Text>
-          </View>
+      <ScrollView style={FormStyles.keyboardContainer} showsVerticalScrollIndicator={false}>
+        <View style={FormStyles.stepContent}>
+          <StepHeader
+            title="Présentez-vous"
+            subtitle="Ces informations nous aident à créer de meilleures connexions"
+          />
 
-          <View style={GlobalStyles.form}>
-            <View style={GlobalStyles.section}>
-              <Text style={GlobalStyles.sectionTitle}>Genre</Text>
+          <View style={FormStyles.stepForm}>
+            <View style={FormStyles.formSection}>
+              <Text style={FormStyles.sectionTitle}>Genre</Text>
               <Controller
                 control={control}
                 name="gender"
                 render={({ field: { onChange } }) => (
-                  <View style={GlobalStyles.optionsContainer}>
+                  <View style={FormStyles.optionsContainer}>
                     {genderOptions.map((option) => (
                       <OptionButton
                         key={option.value}
@@ -122,16 +113,16 @@ export const Step3Form: React.FC<Step3FormProps> = ({
                   </View>
                 )}
               />
-              {errors.gender && <Text style={GlobalStyles.errorText}>{errors.gender.message}</Text>}
+              {errors.gender && <Text style={FormStyles.errorText}>{errors.gender.message}</Text>}
             </View>
 
-            <View style={GlobalStyles.section}>
-              <Text style={GlobalStyles.sectionTitle}>Corpulence</Text>
+            <View style={FormStyles.formSection}>
+              <Text style={FormStyles.sectionTitle}>Corpulence</Text>
               <Controller
                 control={control}
                 name="bodyType"
                 render={({ field: { onChange } }) => (
-                  <View style={GlobalStyles.optionsGrid}>
+                  <View style={FormStyles.optionsGrid}>
                     {bodyTypeOptions.map((option) => (
                       <OptionButton
                         key={option.value}
@@ -143,10 +134,10 @@ export const Step3Form: React.FC<Step3FormProps> = ({
                   </View>
                 )}
               />
-              {errors.bodyType && <Text style={GlobalStyles.errorText}>{errors.bodyType.message}</Text>}
+              {errors.bodyType && <Text style={FormStyles.errorText}>{errors.bodyType.message}</Text>}
             </View>
 
-            <View style={GlobalStyles.section}>
+            <View style={FormStyles.formSection}>
               <Controller
                 control={control}
                 name="city"
@@ -167,14 +158,14 @@ export const Step3Form: React.FC<Step3FormProps> = ({
         </View>
       </ScrollView>
 
-      <View style={GlobalStyles.footer}>
-        <View style={GlobalStyles.buttonContainer}>
+      <View style={FormStyles.stepFooter}>
+        <View style={FormStyles.buttonRow}>
           <Button
             title="Retour"
             onPress={onBack}
             variant="outline"
             size="large"
-            style={GlobalStyles.backButton}
+            style={FormStyles.backButton}
             disabled={loading}
           />
           <Button
@@ -183,35 +174,10 @@ export const Step3Form: React.FC<Step3FormProps> = ({
             disabled={!isValid}
             loading={loading}
             size="large"
-            style={GlobalStyles.nextButton}
+            style={FormStyles.nextButton}
           />
         </View>
       </View>
     </KeyboardAvoidingView>
   );
-};
-
-const styles = {
-  progressHeader: {
-    paddingTop: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.md,
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
-    overflow: 'hidden' as const,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.secondary,
-    borderRadius: 2,
-  },
-  mainTitle: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold' as const,
-    textAlign: 'center' as const,
-    marginBottom: Spacing.xs,
-  },
 };

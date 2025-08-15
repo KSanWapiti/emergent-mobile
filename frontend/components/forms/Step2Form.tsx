@@ -1,7 +1,6 @@
 import React from 'react';
 import { 
   View, 
-  Text, 
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
@@ -10,10 +9,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { GradientText } from '../ui/GradientText';
+import { ProgressBar } from '../ui/ProgressBar';
+import { StepHeader } from '../ui/StepHeader';
 import { step2Schema, Step2FormData } from '../../utils/validation';
-import { GlobalStyles } from '../../styles/GlobalStyles';
-import { Colors, FontSizes, Spacing } from '../../constants/Colors';
+import { FormStyles } from '../../styles/FormStyles';
 
 interface Step2FormProps {
   onNext: (data: Step2FormData) => void;
@@ -42,7 +41,6 @@ export const Step2Form: React.FC<Step2FormProps> = ({
   });
 
   const formatDate = (text: string) => {
-    // Auto-format date as user types
     const numbers = text.replace(/\D/g, '');
     if (numbers.length <= 2) return numbers;
     if (numbers.length <= 4) return `${numbers.slice(0, 2)}/${numbers.slice(2)}`;
@@ -52,26 +50,18 @@ export const Step2Form: React.FC<Step2FormProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={GlobalStyles.container}
+      style={FormStyles.stepContainer}
     >
-      {/* Header avec barre de progression */}
-      <View style={styles.progressHeader}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '40%' }]} />
-        </View>
-      </View>
+      <ProgressBar progress={40} />
 
-      <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
-        <View style={GlobalStyles.content}>
-          <View style={GlobalStyles.header}>
-            <GradientText style={styles.mainTitle}>Création du profil</GradientText>
-            <Text style={GlobalStyles.title}>Informations personnelles</Text>
-            <Text style={GlobalStyles.subtitle}>
-              Aidez-nous à mieux vous connaître avec quelques informations de base
-            </Text>
-          </View>
+      <ScrollView style={FormStyles.keyboardContainer} showsVerticalScrollIndicator={false}>
+        <View style={FormStyles.stepContent}>
+          <StepHeader
+            title="Informations personnelles"
+            subtitle="Aidez-nous à mieux vous connaître avec quelques informations de base"
+          />
 
-          <View style={GlobalStyles.form}>
+          <View style={FormStyles.stepForm}>
             <Controller
               control={control}
               name="firstName"
@@ -144,49 +134,24 @@ export const Step2Form: React.FC<Step2FormProps> = ({
         </View>
       </ScrollView>
 
-      <View style={GlobalStyles.footer}>
-        <View style={GlobalStyles.buttonContainer}>
+      <View style={FormStyles.stepFooter}>
+        <View style={FormStyles.buttonRow}>
           <Button
             title="Retour"
             onPress={onBack}
             variant="outline"
             size="large"
-            style={GlobalStyles.backButton}
+            style={FormStyles.backButton}
           />
           <Button
             title="Suivant"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             size="large"
-            style={GlobalStyles.nextButton}
+            style={FormStyles.nextButton}
           />
         </View>
       </View>
     </KeyboardAvoidingView>
   );
-};
-
-const styles = {
-  progressHeader: {
-    paddingTop: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.md,
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
-    overflow: 'hidden' as const,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.secondary,
-    borderRadius: 2,
-  },
-  mainTitle: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold' as const,
-    textAlign: 'center' as const,
-    marginBottom: Spacing.xs,
-  },
 };

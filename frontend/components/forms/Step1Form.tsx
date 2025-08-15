@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { GradientText } from '../ui/GradientText';
+import { ProgressBar } from '../ui/ProgressBar';
+import { StepHeader } from '../ui/StepHeader';
 import { step1Schema, Step1FormData } from '../../utils/validation';
-import { GlobalStyles } from '../../styles/GlobalStyles';
-import { Colors, FontSizes, Spacing } from '../../constants/Colors';
+import { FormStyles } from '../../styles/FormStyles';
 
 interface Step1FormProps {
   onNext: (data: Step1FormData) => void;
@@ -33,25 +33,17 @@ export const Step1Form: React.FC<Step1FormProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={GlobalStyles.container}
+      style={FormStyles.stepContainer}
     >
-      {/* Header avec barre de progression */}
-      <View style={styles.progressHeader}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '20%' }]} />
-        </View>
-      </View>
+      <ProgressBar progress={20} />
 
-      <View style={GlobalStyles.content}>        
-        <View style={GlobalStyles.header}>
-          <GradientText style={styles.mainTitle}>Création du profil</GradientText>
-          <Text style={GlobalStyles.title}>Choisissez votre pseudo</Text>
-          <Text style={GlobalStyles.subtitle}>
-            Votre @unique dans l'app!
-          </Text>
-        </View>
+      <View style={FormStyles.stepContent}>
+        <StepHeader
+          title="Choisissez votre pseudo"
+          subtitle="Votre @unique dans l'app!"
+        />
 
-        <View style={GlobalStyles.form}>
+        <View style={FormStyles.stepForm}>
           <Controller
             control={control}
             name="pseudo"
@@ -72,39 +64,15 @@ export const Step1Form: React.FC<Step1FormProps> = ({
         </View>
       </View>
 
-      <View style={GlobalStyles.footer}>
+      <View style={FormStyles.stepFooter}>
         <Button
           title="Suivant"
           onPress={handleSubmit(onNext)}
           disabled={!isValid}
           size="large"
+          style={FormStyles.fullWidthButton}
         />
       </View>
     </KeyboardAvoidingView>
   );
-};
-
-const styles = {
-  progressHeader: {
-    paddingTop: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.md,
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
-    overflow: 'hidden' as const,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.secondary,
-    borderRadius: 2,
-  },
-  mainTitle: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold' as const,
-    textAlign: 'center' as const,
-    marginBottom: Spacing.xs,
-  },
 };
