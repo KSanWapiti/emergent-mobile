@@ -30,31 +30,39 @@ export const step2Schema = z.object({
     .min(1, 'La date de naissance est requise')
     .regex(/^\d{2}\/\d{2}\/\d{4}$/, 'Format invalide. Utilisez DD/MM/YYYY')
     .refine((val) => {
-      // Parse DD/MM/YYYY format
-      const parts = val.split('/');
-      if (parts.length !== 3) return false;
-      
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed in JS
-      const year = parseInt(parts[2], 10);
-      
-      // Validate date components
-      if (day < 1 || day > 31 || month < 0 || month > 11 || year < 1900 || year > 2010) {
+      try {
+        // Parse DD/MM/YYYY format
+        const parts = val.split('/');
+        if (parts.length !== 3) return false;
+        
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // Months are 0-indexed in JS
+        const year = parseInt(parts[2], 10);
+        
+        // Validate date components
+        if (day < 1 || day > 31 || month < 0 || month > 11 || year < 1920 || year > 2020) {
+          return false;
+        }
+        
+        const birthDate = new Date(year, month, day);
+        const today = new Date();
+        
+        // Calculate age accurately
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        
+        // Debug log for development
+        console.log(`Date: ${val}, Calculated age: ${age}, Birth year: ${year}, Current year: ${today.getFullYear()}`);
+        
+        return age >= 18 && age <= 100;
+      } catch (error) {
+        console.log('Date validation error:', error);
         return false;
       }
-      
-      const birthDate = new Date(year, month, day);
-      const today = new Date();
-      
-      // Calculate age accurately
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      
-      return age >= 18 && age <= 100;
     }, 'Vous devez avoir entre 18 et 100 ans'),
 });
 
