@@ -178,7 +178,7 @@ export const Step3Form: React.FC<Step3FormProps> = ({
             disabled={loading}
           />
           <Button
-            title="Créer mon compte"
+            title="Suivant"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             loading={loading}
