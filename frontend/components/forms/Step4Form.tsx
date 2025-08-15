@@ -121,23 +121,12 @@ export const Step4Form: React.FC<Step4FormProps> = ({
         </ScrollView>
 
         <View style={GlobalStyles.footer}>
-          <View style={GlobalStyles.buttonContainer}>
-            <Button
-              title="Ignorer (test)"
-              onPress={handleSkipPhotos}
-              variant="outline"
-              size="large"
-              style={GlobalStyles.backButton}
-            />
-            <Button
-              title="Suivant"
-              onPress={handleSubmit(handleFormSubmit)}
-              disabled={!isValid}
-              loading={loading}
-              size="large"
-              style={GlobalStyles.nextButton}
-            />
-          </View>
+          <Button
+            title="TEST - Force Step 5"
+            onPress={handleSkipPhotos}
+            variant="secondary"
+            size="large"
+          />
         </View>
       </KeyboardAvoidingView>
     </View>
