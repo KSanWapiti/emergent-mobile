@@ -62,8 +62,22 @@ export const step5Schema = z.object({
     .refine((val) => val !== '', 'Veuillez sélectionner le nombre d\'invitations'),
 });
 
+export const step6Schema = z.object({
+  ethnicType: z.string().optional(),
+  religion: z.string().optional(),
+  hairColor: z.string().optional(),
+  hairLength: z.string().optional(),
+  socialCategory: z.string().optional(),
+  smoker: z.string().optional(),
+  numberOfChildren: z.string().optional(),
+  spokenLanguages: z.array(z.string()).optional(),
+  hobbies: z.string().optional(),
+  freePresentation: z.string().optional(),
+});
+
 export type Step1FormData = z.infer<typeof step1Schema>;
 export type Step2FormData = z.infer<typeof step2Schema>;
 export type Step3FormData = z.infer<typeof step3Schema>;
 export type Step4FormData = z.infer<typeof step4Schema>;
 export type Step5FormData = z.infer<typeof step5Schema>;
+export type Step6FormData = z.infer<typeof step6Schema>;
