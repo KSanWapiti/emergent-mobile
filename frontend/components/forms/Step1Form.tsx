@@ -38,7 +38,7 @@ export const Step1Form: React.FC<Step1FormProps> = ({
       {/* Header avec barre de progression */}
       <View style={styles.progressHeader}>
         <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '33%' }]} />
+          <View style={[styles.progressFill, { width: '25%' }]} />
         </View>
       </View>
 
