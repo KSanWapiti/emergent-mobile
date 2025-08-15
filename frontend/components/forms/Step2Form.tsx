@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   View, 
   Text, 
-  StyleSheet, 
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
-  TouchableOpacity,
   Alert,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,7 +13,7 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { StepIndicator } from '../ui/StepIndicator';
 import { step2Schema, Step2FormData } from '../../utils/validation';
-import { Colors, Spacing, FontSizes, BorderRadius } from '../../constants/Colors';
+import { GlobalStyles } from '../../styles/GlobalStyles';
 
 interface Step2FormProps {
   onNext: (data: Step2FormData) => void;
@@ -28,14 +26,10 @@ export const Step2Form: React.FC<Step2FormProps> = ({
   onBack,
   defaultValues,
 }) => {
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-    setValue,
-    watch,
   } = useForm<Step2FormData>({
     resolver: zodResolver(step2Schema),
     mode: 'onChange',
@@ -46,25 +40,6 @@ export const Step2Form: React.FC<Step2FormProps> = ({
       dateOfBirth: defaultValues?.dateOfBirth || '',
     },
   });
-
-  const dateOfBirth = watch('dateOfBirth');
-
-  const handleDatePress = () => {
-    Alert.alert(
-      'Date de naissance',
-      'Entrez votre date de naissance au format DD/MM/YYYY',
-      [
-        { text: 'Annuler', style: 'cancel' },
-        {
-          text: 'OK',
-          onPress: () => {
-            // In a real app, you'd use a proper date picker here
-            // For now, we'll use the text input
-          },
-        },
-      ]
-    );
-  };
 
   const formatDate = (text: string) => {
     // Auto-format date as user types
@@ -77,20 +52,20 @@ export const Step2Form: React.FC<Step2FormProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={GlobalStyles.container}
     >
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <View style={styles.content}>
+      <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
+        <View style={GlobalStyles.content}>
           <StepIndicator totalSteps={3} currentStep={2} />
           
-          <View style={styles.header}>
-            <Text style={styles.title}>Informations personnelles</Text>
-            <Text style={styles.subtitle}>
+          <View style={GlobalStyles.header}>
+            <Text style={GlobalStyles.title}>Informations personnelles</Text>
+            <Text style={GlobalStyles.subtitle}>
               Aidez-nous à mieux vous connaître avec quelques informations de base
             </Text>
           </View>
 
-          <View style={styles.form}>
+          <View style={GlobalStyles.form}>
             <Controller
               control={control}
               name="firstName"
@@ -163,73 +138,24 @@ export const Step2Form: React.FC<Step2FormProps> = ({
         </View>
       </ScrollView>
 
-      <View style={styles.footer}>
-        <View style={styles.buttonContainer}>
+      <View style={GlobalStyles.footer}>
+        <View style={GlobalStyles.buttonContainer}>
           <Button
             title="Retour"
             onPress={onBack}
             variant="outline"
             size="large"
-            style={styles.backButton}
+            style={GlobalStyles.backButton}
           />
           <Button
             title="Continuer"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             size="large"
-            style={styles.nextButton}
+            style={GlobalStyles.nextButton}
           />
         </View>
       </View>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background.primary,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.xl,
-  },
-  header: {
-    marginBottom: Spacing.xl,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold',
-    color: Colors.text.primary,
-    textAlign: 'center',
-    marginBottom: Spacing.md,
-  },
-  subtitle: {
-    fontSize: FontSizes.md,
-    color: Colors.text.secondary,
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  form: {
-    paddingBottom: Spacing.xl,
-  },
-  footer: {
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.xl,
-    paddingTop: Spacing.lg,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    gap: Spacing.md,
-  },
-  backButton: {
-    flex: 1,
-  },
-  nextButton: {
-    flex: 2,
-  },
-});
