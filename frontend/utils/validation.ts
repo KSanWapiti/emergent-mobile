@@ -44,6 +44,16 @@ export const step3Schema = z.object({
     .max(50, 'La ville ne peut pas dépasser 50 caractères'),
 });
 
+export const step4Schema = z.object({
+  portraitPhoto: z
+    .string()
+    .min(1, 'Une photo de portrait est requise'),
+  fullBodyPhoto: z
+    .string()
+    .min(1, 'Une photo en pied est requise'),
+});
+
 export type Step1FormData = z.infer<typeof step1Schema>;
 export type Step2FormData = z.infer<typeof step2Schema>;
 export type Step3FormData = z.infer<typeof step3Schema>;
+export type Step4FormData = z.infer<typeof step4Schema>;

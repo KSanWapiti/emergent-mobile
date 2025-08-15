@@ -3,13 +3,15 @@ import { SafeAreaView, Alert } from 'react-native';
 import { Step1Form } from '../../components/forms/Step1Form';
 import { Step2Form } from '../../components/forms/Step2Form';
 import { Step3Form } from '../../components/forms/Step3Form';
-import { Step1FormData, Step2FormData, Step3FormData } from '../../utils/validation';
+import { Step4Form } from '../../components/forms/Step4Form';
+import { Step1FormData, Step2FormData, Step3FormData, Step4FormData } from '../../utils/validation';
 import { router } from 'expo-router';
 
 type RegistrationData = {
   step1?: Step1FormData;
   step2?: Step2FormData;
   step3?: Step3FormData;
+  step4?: Step4FormData;
 };
 
 export default function RegisterScreen() {
@@ -29,12 +31,19 @@ export default function RegisterScreen() {
     setCurrentStep(3);
   };
 
-  const handleStep3Next = async (data: Step3FormData) => {
+  const handleStep3Next = (data: Step3FormData) => {
+    console.log('Step 3 data:', data);
+    setRegistrationData(prev => ({ ...prev, step3: data }));
+    setCurrentStep(4);
+  };
+
+  const handleStep4Next = async (data: Step4FormData) => {
     setLoading(true);
     try {
       const completeData = {
         ...registrationData.step1!,
         ...registrationData.step2!,
+        ...registrationData.step3!,
         ...data,
       };
 
@@ -94,6 +103,14 @@ export default function RegisterScreen() {
           onNext={handleStep3Next}
           onBack={handleBack}
           defaultValues={registrationData.step3}
+          loading={loading}
+        />
+      )}
+      {currentStep === 4 && (
+        <Step4Form
+          onNext={handleStep4Next}
+          onBack={handleBack}
+          defaultValues={registrationData.step4}
           loading={loading}
         />
       )}
