@@ -55,7 +55,18 @@ export default function RegisterScreen() {
     setCurrentStep(6);
   };
 
-  const handleStep6Next = async (data: Step6FormData) => {
+  const handleStep6Next = (data: Step6FormData) => {
+    console.log('Step 6 data:', data);
+    setRegistrationData(prev => ({ ...prev, step6: data }));
+    setCurrentStep(7);
+  };
+
+  const handleStep6Skip = () => {
+    console.log('Step 6 skipped - navigating to step 7');
+    setCurrentStep(7);
+  };
+
+  const handleStep7Next = async (data: Step7FormData) => {
     setLoading(true);
     try {
       const completeData = {
@@ -64,6 +75,7 @@ export default function RegisterScreen() {
         ...registrationData.step3!,
         ...registrationData.step4!,
         ...registrationData.step5!,
+        ...registrationData.step6!,
         ...data,
       };
 
@@ -95,7 +107,7 @@ export default function RegisterScreen() {
     }
   };
 
-  const handleStep6Skip = async () => {
+  const handleStep7Skip = async () => {
     setLoading(true);
     try {
       const completeData = {
@@ -104,17 +116,18 @@ export default function RegisterScreen() {
         ...registrationData.step3!,
         ...registrationData.step4!,
         ...registrationData.step5!,
-        // Step 6 data is optional, so we don't include it
+        ...registrationData.step6!,
+        // Step 7 data is optional, so we don't include it
       };
 
-      console.log('Complete registration data (step 6 skipped):', completeData);
+      console.log('Complete registration data (step 7 skipped):', completeData);
       
       // Mock API call - simulate successful registration
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       Alert.alert(
         'Inscription réussie!',
-        'Votre profil Tyte a été créé avec succès. Vous pourrez compléter ces informations plus tard. Bienvenue dans la communauté !',
+        'Votre profil Tyte a été créé avec succès. Vous pourrez ajouter plus de photos et vidéos plus tard. Bienvenue dans la communauté !',
         [
           {
             text: 'Commencer',
