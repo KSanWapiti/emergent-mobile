@@ -75,9 +75,20 @@ export const step6Schema = z.object({
   freePresentation: z.string().optional(),
 });
 
+export const step7Schema = z.object({
+  video: z.string().optional(),
+  additionalPhoto1: z.string().optional(),
+  additionalPhoto2: z.string().optional(),
+  additionalPhoto3: z.string().optional(),
+  additionalPhoto4: z.string().optional(),
+  additionalPhoto5: z.string().optional(),
+  additionalPhoto6: z.string().optional(),
+});
+
 export type Step1FormData = z.infer<typeof step1Schema>;
 export type Step2FormData = z.infer<typeof step2Schema>;
 export type Step3FormData = z.infer<typeof step3Schema>;
 export type Step4FormData = z.infer<typeof step4Schema>;
 export type Step5FormData = z.infer<typeof step5Schema>;
 export type Step6FormData = z.infer<typeof step6Schema>;
+export type Step7FormData = z.infer<typeof step7Schema>;
