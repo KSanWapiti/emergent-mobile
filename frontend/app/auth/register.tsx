@@ -49,8 +49,10 @@ export default function RegisterScreen() {
 
   const handleStep5Next = (data: Step5FormData) => {
     console.log('Step 5 data:', data);
+    console.log('Navigating from step 5 to step 6...');
     setRegistrationData(prev => ({ ...prev, step5: data }));
     setCurrentStep(6);
+    console.log('Current step should now be 6');
   };
 
   const handleStep6Next = async (data: Step6FormData) => {
