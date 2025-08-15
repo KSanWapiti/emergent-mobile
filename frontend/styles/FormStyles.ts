@@ -163,6 +163,9 @@ export const FormStyles = StyleSheet.create({
   },
   
   // Section styles
+  formSection: {
+    marginBottom: Spacing.lg,
+  },
   sectionSubtitle: {
     fontSize: FontSizes.sm,
     color: Colors.text.secondary,
