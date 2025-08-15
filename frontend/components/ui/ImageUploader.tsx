@@ -113,7 +113,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   const deleteImage = () => {
-    onImageChange(null);
+    handleImageChange(null);
     setShowActions(false);
   };
 
