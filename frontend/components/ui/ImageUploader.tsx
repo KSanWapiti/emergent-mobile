@@ -123,7 +123,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   const handleCropComplete = (croppedImage: string) => {
-    onImageChange(croppedImage);
+    handleImageChange(croppedImage);
   };
 
   return (
