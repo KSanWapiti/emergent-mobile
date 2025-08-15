@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Spacing, FontSizes } from '../constants/Colors';
+import { Colors, Spacing, FontSizes, BorderRadius } from '../constants/Colors';
 
 export const FormStyles = StyleSheet.create({
   // Main containers
