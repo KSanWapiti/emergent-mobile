@@ -19,7 +19,7 @@ type RegistrationData = {
 };
 
 export default function RegisterScreen() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(5); // Test: Start at step 5
   const [registrationData, setRegistrationData] = useState<RegistrationData>({});
   const [loading, setLoading] = useState(false);
 
