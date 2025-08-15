@@ -31,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   style,
   textStyle,
+  gradient = false,
 }) => {
   const buttonHeight = size === 'small' ? 40 : size === 'medium' ? 48 : 56;
   const fontSize = size === 'small' ? FontSizes.sm : size === 'medium' ? FontSizes.md : FontSizes.lg;
