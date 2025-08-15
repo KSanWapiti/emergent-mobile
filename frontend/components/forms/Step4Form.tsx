@@ -32,7 +32,7 @@ export const Step4Form: React.FC<Step4FormProps> = ({
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<Step4FormData>({
     resolver: zodResolver(step4Schema),
     mode: 'onChange',
@@ -41,11 +41,6 @@ export const Step4Form: React.FC<Step4FormProps> = ({
       fullBodyPhoto: defaultValues?.fullBodyPhoto || '',
     },
   });
-
-  const handleSkipPhotos = () => {
-    console.log('Skip photos clicked - navigating to step 5');
-    onNext({ portraitPhoto: '', fullBodyPhoto: '' });
-  };
 
   const handleFormSubmit = (data: Step4FormData) => {
     console.log('Step4 form submitted with data:', data);
