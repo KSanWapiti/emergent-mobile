@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: BorderRadius.xl,
     padding: Spacing.xl,
-    width: screenWidth * 0.85,
+    width: screenWidth * 0.9,
+    height: screenHeight * 0.8,
     maxWidth: 400,
   },
   modalTitle: {
@@ -142,15 +143,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: Spacing.md,
   },
-  instructions: {
-    fontSize: FontSizes.md,
-    color: Colors.text.secondary,
-    textAlign: 'center',
-    marginBottom: Spacing.xl,
-    lineHeight: 20,
+  cropContainer: {
+    flex: 1,
+    marginVertical: Spacing.lg,
+    borderRadius: BorderRadius.md,
+    overflow: 'hidden',
+  },
+  cropView: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
   },
   buttonContainer: {
     gap: Spacing.md,
+    paddingTop: Spacing.lg,
   },
   actionButton: {
     paddingVertical: Spacing.md,
