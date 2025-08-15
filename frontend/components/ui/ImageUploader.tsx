@@ -166,7 +166,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         {/* Action buttons when image is present */}
         {value && (
           <View style={styles.actionButtonsContainer}>
-            <TouchableOpacity style={styles.actionItem} onPress={pickImage}>
+            <TouchableOpacity style={styles.actionItem} onPress={pickMedia}>
               <Text style={styles.actionIcon}>📷</Text>
               <Text style={styles.actionText}>Changer de photo</Text>
             </TouchableOpacity>
