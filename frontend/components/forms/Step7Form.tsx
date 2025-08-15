@@ -104,7 +104,7 @@ export const Step7Form: React.FC<Step7FormProps> = ({
                           label=""
                           placeholder="Ajouter une photo"
                           value={value}
-                          onImageSelected={onChange}
+                          onImageChange={onChange}
                           error={errors.additionalPhoto1?.message}
                           style={FormStyles.gridPhotoUploader}
                         />
@@ -118,7 +118,7 @@ export const Step7Form: React.FC<Step7FormProps> = ({
                           label=""
                           placeholder="Ajouter une photo"
                           value={value}
-                          onImageSelected={onChange}
+                          onImageChange={onChange}
                           error={errors.additionalPhoto2?.message}
                           style={FormStyles.gridPhotoUploader}
                         />
@@ -132,7 +132,7 @@ export const Step7Form: React.FC<Step7FormProps> = ({
                           label=""
                           placeholder="Ajouter une photo"
                           value={value}
-                          onImageSelected={onChange}
+                          onImageChange={onChange}
                           error={errors.additionalPhoto3?.message}
                           style={FormStyles.gridPhotoUploader}
                         />
@@ -150,7 +150,7 @@ export const Step7Form: React.FC<Step7FormProps> = ({
                           label=""
                           placeholder="Ajouter une photo"
                           value={value}
-                          onImageSelected={onChange}
+                          onImageChange={onChange}
                           error={errors.additionalPhoto4?.message}
                           style={FormStyles.gridPhotoUploader}
                         />
@@ -164,7 +164,7 @@ export const Step7Form: React.FC<Step7FormProps> = ({
                           label=""
                           placeholder="Ajouter une photo"
                           value={value}
-                          onImageSelected={onChange}
+                          onImageChange={onChange}
                           error={errors.additionalPhoto5?.message}
                           style={FormStyles.gridPhotoUploader}
                         />
@@ -178,7 +178,7 @@ export const Step7Form: React.FC<Step7FormProps> = ({
                           label=""
                           placeholder="Ajouter une photo"
                           value={value}
-                          onImageSelected={onChange}
+                          onImageChange={onChange}
                           error={errors.additionalPhoto6?.message}
                           style={FormStyles.gridPhotoUploader}
                         />
