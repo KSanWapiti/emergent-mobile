@@ -8,8 +8,7 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import DynamicImageCrop from 'expo-dynamic-image-crop';
-import * as ImageManipulator from 'expo-image-manipulator';
+import { ImageManipulator } from 'expo-image-crop';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
 
 interface ImageCropperProps {
@@ -29,95 +28,30 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
   onCropComplete,
   aspectRatio = [3, 4],
 }) => {
-  const [cropping, setCropping] = useState(false);
-  const [cropData, setCropData] = useState<any>(null);
-
-  const handleCrop = async () => {
-    if (!cropData) {
-      Alert.alert('Erreur', 'Veuillez ajuster le cadrage avant de continuer');
-      return;
+  const handleCropComplete = (croppedImage: { uri: string }) => {
+    if (croppedImage && croppedImage.uri) {
+      onCropComplete(croppedImage.uri);
     }
-
-    try {
-      setCropping(true);
-      
-      const { originX, originY, width, height } = cropData;
-      
-      // Use Expo Image Manipulator to crop the image
-      const result = await ImageManipulator.manipulateAsync(
-        imageUri,
-        [
-          {
-            crop: {
-              originX,
-              originY,
-              width,
-              height,
-            },
-          },
-        ],
-        {
-          compress: 0.8,
-          format: ImageManipulator.SaveFormat.JPEG,
-          base64: true,
-        }
-      );
-
-      if (result.base64) {
-        const base64Image = `data:image/jpeg;base64,${result.base64}`;
-        onCropComplete(base64Image);
-        onClose();
-      }
-    } catch (error) {
-      console.log('Crop error:', error);
-      Alert.alert('Erreur', 'Impossible de recadrer l\'image');
-    } finally {
-      setCropping(false);
-    }
+    onClose();
   };
 
-  const handleCropDataChange = (data: any) => {
-    setCropData(data);
+  const handleToggleModal = () => {
+    onClose();
   };
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Recadrer la photo</Text>
-          
-          <View style={styles.cropContainer}>
-            <DynamicImageCrop
-              uri={imageUri}
-              fixedAspectRatio={aspectRatio[0] / aspectRatio[1]}
-              onCropDataChange={handleCropDataChange}
-              style={styles.cropView}
-            />
-          </View>
-          
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-              style={[styles.actionButton, styles.cropButton]} 
-              onPress={handleCrop}
-              disabled={cropping || !cropData}
-            >
-              <Text style={[styles.actionButtonText, styles.cropButtonText]}>
-                {cropping ? 'Recadrage...' : '✂️ Recadrer'}
-              </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-              <Text style={styles.cancelButtonText}>Annuler</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </Modal>
+    <ImageManipulator
+      photo={{ uri: imageUri }}
+      isVisible={visible}
+      onPictureChoosed={handleCropComplete}
+      onToggleModal={handleToggleModal}
+      btnTexts={{
+        crop: 'Recadrer',
+        rotate: 'Pivoter',
+        done: 'Terminé',
+        processing: 'Traitement...',
+      }}
+    />
   );
 };
 
