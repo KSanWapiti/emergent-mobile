@@ -15,10 +15,13 @@ import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors
 interface ImageUploaderProps {
   label: string;
   placeholder: string;
-  value?: string; // base64 image
-  onImageChange: (base64Image: string | null) => void;
+  value?: string; // base64 image/video
+  onImageSelected: (base64Media: string | null) => void;
+  onImageChange: (base64Media: string | null) => void; // Legacy prop for backwards compatibility
   style?: any;
   isPortrait?: boolean; // To determine circular or rectangular display
+  isVideo?: boolean; // To handle video uploads
+  error?: string;
 }
 
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
