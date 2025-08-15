@@ -5,7 +5,8 @@ import { Step2Form } from '../../components/forms/Step2Form';
 import { Step3Form } from '../../components/forms/Step3Form';
 import { Step4Form } from '../../components/forms/Step4Form';
 import { Step5Form } from '../../components/forms/Step5Form';
-import { Step1FormData, Step2FormData, Step3FormData, Step4FormData, Step5FormData } from '../../utils/validation';
+import { Step6Form } from '../../components/forms/Step6Form';
+import { Step1FormData, Step2FormData, Step3FormData, Step4FormData, Step5FormData, Step6FormData } from '../../utils/validation';
 import { router } from 'expo-router';
 
 type RegistrationData = {
@@ -14,6 +15,7 @@ type RegistrationData = {
   step3?: Step3FormData;
   step4?: Step4FormData;
   step5?: Step5FormData;
+  step6?: Step6FormData;
 };
 
 export default function RegisterScreen() {
