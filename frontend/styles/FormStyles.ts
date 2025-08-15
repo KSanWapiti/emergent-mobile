@@ -101,9 +101,72 @@ export const FormStyles = StyleSheet.create({
     width: '100%',
   },
 
-  // Sections
-  formSection: {
-    marginBottom: Spacing.xl,
+  // Form rows and columns
+  formRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.lg,
+    gap: Spacing.md,
+  },
+  formColumn: {
+    flex: 1,
+  },
+  
+  // Dropdown styles
+  dropdownContainer: {
+    marginBottom: Spacing.sm,
+  },
+  dropdownSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: Colors.border.light,
+    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.md,
+    backgroundColor: '#FFFFFF',
+    minHeight: 48,
+  },
+  dropdownSelectorError: {
+    borderColor: Colors.error,
+  },
+  dropdownText: {
+    fontSize: FontSizes.md,
+    color: Colors.text.primary,
+    flex: 1,
+  },
+  dropdownPlaceholder: {
+    color: Colors.text.secondary,
+  },
+  dropdownChevron: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.secondary,
+  },
+  
+  // Text input styles
+  textInput: {
+    borderWidth: 1,
+    borderColor: Colors.border.light,
+    borderRadius: BorderRadius.md,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.md,
+    fontSize: FontSizes.md,
+    color: Colors.text.primary,
+    backgroundColor: '#FFFFFF',
+    minHeight: 48,
+  },
+  multilineInput: {
+    minHeight: 120,
+    textAlignVertical: 'top',
+    paddingTop: Spacing.md,
+  },
+  
+  // Section styles
+  sectionSubtitle: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.secondary,
+    marginBottom: Spacing.sm,
   },
 
   sectionTitle: {
