@@ -33,8 +33,13 @@ export const step2Schema = z.object({
       // Parse DD/MM/YYYY format
       const [day, month, year] = val.split('/').map(Number);
       
-      // Basic validation
-      if (!day || !month || !year || day > 31 || month > 12 || year < 1920 || year > 2020) {
+      // Basic validation of date components
+      if (!day || !month || !year || day < 1 || day > 31 || month < 1 || month > 12) {
+        return false;
+      }
+      
+      // Year range validation - people born between 1920 and 2010 are reasonable
+      if (year < 1920 || year > 2010) {
         return false;
       }
       
@@ -52,7 +57,10 @@ export const step2Schema = z.object({
         age--;
       }
       
-      // Return true if age is between 18 and 100
+      // For someone born 24/10/1999, in 2025:
+      // age = 2025 - 1999 = 26 (or 25 if before October 24)
+      // This should definitely pass the 18-100 validation
+      
       return age >= 18 && age <= 100;
     }, 'Vous devez avoir entre 18 et 100 ans'),
 });
