@@ -47,7 +47,13 @@ export default function RegisterScreen() {
     setCurrentStep(5);
   };
 
-  const handleStep5Next = async (data: Step5FormData) => {
+  const handleStep5Next = (data: Step5FormData) => {
+    console.log('Step 5 data:', data);
+    setRegistrationData(prev => ({ ...prev, step5: data }));
+    setCurrentStep(6);
+  };
+
+  const handleStep6Next = async (data: Step6FormData) => {
     setLoading(true);
     try {
       const completeData = {
@@ -55,6 +61,7 @@ export default function RegisterScreen() {
         ...registrationData.step2!,
         ...registrationData.step3!,
         ...registrationData.step4!,
+        ...registrationData.step5!,
         ...data,
       };
 
@@ -66,6 +73,46 @@ export default function RegisterScreen() {
       Alert.alert(
         'Inscription réussie!',
         'Votre profil Tyte a été créé avec succès. Bienvenue dans la communauté !',
+        [
+          {
+            text: 'Commencer',
+            onPress: () => router.replace('/welcome')
+          }
+        ]
+      );
+      
+    } catch (error) {
+      console.error('Registration failed:', error);
+      Alert.alert(
+        'Erreur',
+        'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.',
+        [{ text: 'OK' }]
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStep6Skip = async () => {
+    setLoading(true);
+    try {
+      const completeData = {
+        ...registrationData.step1!,
+        ...registrationData.step2!,
+        ...registrationData.step3!,
+        ...registrationData.step4!,
+        ...registrationData.step5!,
+        // Step 6 data is optional, so we don't include it
+      };
+
+      console.log('Complete registration data (step 6 skipped):', completeData);
+      
+      // Mock API call - simulate successful registration
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      Alert.alert(
+        'Inscription réussie!',
+        'Votre profil Tyte a été créé avec succès. Vous pourrez compléter ces informations plus tard. Bienvenue dans la communauté !',
         [
           {
             text: 'Commencer',
