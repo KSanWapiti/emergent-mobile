@@ -53,7 +53,7 @@ export const Step4Form: React.FC<Step4FormProps> = ({
       {/* Header avec barre de progression */}
       <View style={styles.progressHeader}>
         <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '100%' }]} />
+          <View style={[styles.progressFill, { width: '80%' }]} />
         </View>
       </View>
 
