@@ -131,7 +131,7 @@ export const Step4Form: React.FC<Step4FormProps> = ({
             />
             <Button
               title="Suivant"
-              onPress={handleSubmit(onNext)}
+              onPress={handleSubmit(handleFormSubmit)}
               disabled={!isValid}
               loading={loading}
               size="large"
