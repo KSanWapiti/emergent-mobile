@@ -145,6 +145,7 @@ export default function RegisterScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {console.log('Current step in render:', currentStep)}
       {currentStep === 1 && (
         <Step1Form
           onNext={handleStep1Next}
