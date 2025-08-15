@@ -52,6 +52,13 @@ export const ButtonStyles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  ghostButtonText: {
+    color: Colors.text.secondary,
+    fontWeight: '500',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+  },
+
   // Option button for forms
   optionButton: {
     paddingHorizontal: Spacing.md,
