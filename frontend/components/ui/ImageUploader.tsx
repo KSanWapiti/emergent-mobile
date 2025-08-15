@@ -54,25 +54,32 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     return true;
   };
 
-  const pickImage = async () => {
-    const hasPermission = await requestPermission();
-    if (!hasPermission) return;
+  const pickMedia = async () => {
+    if (!(await requestPermission())) return;
 
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: false, // We'll do custom cropping
-        quality: 0.8,
-        base64: true,
+        mediaTypes: isVideo ? ImagePicker.MediaTypeOptions.Videos : ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: !isVideo, // Don't allow editing for videos
+        aspect: isVideo ? undefined : (isPortrait ? [3, 4] : [1, 1]),
+        quality: isVideo ? 0.8 : 0.8,
+        base64: !isVideo, // Don't get base64 for videos (too large)
+        ...(isVideo && { videoMaxDuration: 30 }), // 30 seconds max for videos
       });
 
       if (!result.canceled && result.assets[0]) {
-        const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
-        handleImageChange(base64Image);
+        if (isVideo) {
+          // For videos, we store the URI directly (not base64)
+          handleImageChange(result.assets[0].uri);
+        } else {
+          const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+          handleImageChange(base64Image);
+        }
         setShowActions(false);
       }
     } catch (error) {
-      Alert.alert('Erreur', 'Impossible de sélectionner l\'image');
+      console.log('Media picker error:', error);
+      Alert.alert('Erreur', `Impossible de sélectionner ${isVideo ? 'la vidéo' : 'l\'image'}`);
     }
   };
 
