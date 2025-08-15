@@ -19,8 +19,6 @@ interface ImageCropperProps {
   aspectRatio?: [number, number];
 }
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
-
 export const ImageCropper: React.FC<ImageCropperProps> = ({
   visible,
   imageUri,
