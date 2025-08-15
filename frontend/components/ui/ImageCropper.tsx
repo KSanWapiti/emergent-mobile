@@ -8,7 +8,7 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import * as ImagePicker from 'expo-image-picker';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
 
 interface ImageCropperProps {
@@ -34,19 +34,17 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
     try {
       setCropping(true);
       
-      // Use the image crop picker to crop the image
-      const croppedImage = await ImagePicker.openCropper({
-        path: imageUri,
-        width: aspectRatio[0] * 100,
-        height: aspectRatio[1] * 100,
-        cropping: true,
-        includeBase64: true,
-        mediaType: 'photo',
-        compressImageQuality: 0.8,
+      // Use Expo's built-in image picker with editing enabled
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: aspectRatio,
+        quality: 0.8,
+        base64: true,
       });
 
-      if (croppedImage.data) {
-        const base64Image = `data:image/jpeg;base64,${croppedImage.data}`;
+      if (!result.canceled && result.assets[0]) {
+        const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
         onCropComplete(base64Image);
         onClose();
       }
@@ -70,7 +68,7 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
           <Text style={styles.modalTitle}>Recadrer la photo</Text>
           
           <Text style={styles.instructions}>
-            Appuyez sur "Recadrer" pour ajuster votre photo
+            Sélectionnez une nouvelle image avec recadrage automatique
           </Text>
           
           <View style={styles.buttonContainer}>
