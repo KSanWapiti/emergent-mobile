@@ -202,6 +202,15 @@ export default function RegisterScreen() {
           loading={loading}
         />
       )}
+      {currentStep === 7 && (
+        <Step7Form
+          onNext={handleStep7Next}
+          onSkip={handleStep7Skip}
+          onBack={handleBack}
+          defaultValues={registrationData.step7}
+          loading={loading}
+        />
+      )}
     </SafeAreaView>
   );
 }
