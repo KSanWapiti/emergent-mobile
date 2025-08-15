@@ -63,7 +63,7 @@ export const Step5Form: React.FC<Step5FormProps> = ({
   return (
     <View style={FormStyles.fullContainer}>
       <NavigationHeader showMenu={true} />
-      <ProgressBar progress={100} />
+      <ProgressBar progress={85} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
