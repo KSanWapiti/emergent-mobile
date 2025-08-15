@@ -6,6 +6,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { ButtonStyles } from '../../styles/ButtonStyles';
 import { FontSizes } from '../../constants/Colors';
 
@@ -18,6 +19,7 @@ interface ButtonProps {
   disabled?: boolean;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  gradient?: boolean; // New prop for gradient support
 }
 
 export const Button: React.FC<ButtonProps> = ({
