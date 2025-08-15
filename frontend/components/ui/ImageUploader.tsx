@@ -28,12 +28,18 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   label,
   placeholder,
   value,
-  onImageChange,
+  onImageSelected,
+  onImageChange, // Legacy support
   style,
   isPortrait = false,
+  isVideo = false,
+  error,
 }) => {
   const [showActions, setShowActions] = useState(false);
   const [showCropper, setShowCropper] = useState(false);
+
+  // Use the new prop if provided, fallback to legacy prop
+  const handleImageChange = onImageSelected || onImageChange;
 
   const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
