@@ -4,3 +4,4 @@ export { ButtonStyles } from './ButtonStyles';
 export { InputStyles } from './InputStyles';
 export { WelcomeStyles } from './WelcomeStyles';
 export { StepIndicatorStyles } from './StepIndicatorStyles';
+export { FormStyles } from './FormStyles';

@@ -5,16 +5,16 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/Button';
-import { GradientText } from '../ui/GradientText';
+import { ProgressBar } from '../ui/ProgressBar';
+import { StepHeader } from '../ui/StepHeader';
+import { RadioGroup } from '../ui/RadioGroup';
 import { NavigationHeader } from '../ui/NavigationHeader';
 import { step5Schema, Step5FormData } from '../../utils/validation';
-import { GlobalStyles } from '../../styles/GlobalStyles';
-import { Colors, FontSizes, Spacing, BorderRadius } from '../../constants/Colors';
+import { FormStyles } from '../../styles/FormStyles';
 
 interface Step5FormProps {
   onNext: (data: Step5FormData) => void;
@@ -22,22 +22,6 @@ interface Step5FormProps {
   defaultValues?: Partial<Step5FormData>;
   loading?: boolean;
 }
-
-interface RadioOptionProps {
-  label: string;
-  value: string;
-  selected: boolean;
-  onPress: () => void;
-}
-
-const RadioOption: React.FC<RadioOptionProps> = ({ label, value, selected, onPress }) => (
-  <TouchableOpacity style={styles.radioOption} onPress={onPress} activeOpacity={0.7}>
-    <View style={[styles.radioCircle, selected && styles.radioCircleSelected]}>
-      {selected && <View style={styles.radioInner} />}
-    </View>
-    <Text style={styles.radioLabel}>{label}</Text>
-  </TouchableOpacity>
-);
 
 export const Step5Form: React.FC<Step5FormProps> = ({
   onNext,
@@ -49,7 +33,6 @@ export const Step5Form: React.FC<Step5FormProps> = ({
     control,
     handleSubmit,
     formState: { errors, isValid },
-    setValue,
     watch,
   } = useForm<Step5FormData>({
     resolver: zodResolver(step5Schema),
@@ -78,169 +61,72 @@ export const Step5Form: React.FC<Step5FormProps> = ({
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={FormStyles.fullContainer}>
       <NavigationHeader showMenu={true} />
-      
-      {/* Header avec barre de progression */}
-      <View style={styles.progressHeader}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '100%' }]} />
-        </View>
-      </View>
+      <ProgressBar progress={100} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardContainer}
+        style={FormStyles.keyboardContainer}
       >
-        <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
-          <View style={GlobalStyles.content}>
-            <View style={GlobalStyles.header}>
-              <GradientText style={styles.mainTitle}>Création du profil</GradientText>
-              <Text style={GlobalStyles.title}>Configurer votre boîte de réception</Text>
-              <Text style={GlobalStyles.subtitle}>
-                Faites votre choix de comportement
-              </Text>
-            </View>
+        <ScrollView style={FormStyles.keyboardContainer} showsVerticalScrollIndicator={false}>
+          <View style={FormStyles.stepContent}>
+            <StepHeader
+              title="Configurer votre boîte de réception"
+              subtitle="Faites votre choix de comportement"
+            />
 
-            <View style={styles.form}>
-              {/* Section Messages */}
-              <View style={GlobalStyles.section}>
-                <Text style={styles.sectionTitle}>Nombre maximum de messages reçus par jour:</Text>
+            <View style={FormStyles.stepForm}>
+              <View style={FormStyles.formSection}>
+                <Text style={FormStyles.sectionTitleMedium}>
+                  Nombre maximum de messages reçus par jour:
+                </Text>
                 <Controller
                   control={control}
                   name="maxMessagesPerDay"
                   render={({ field: { onChange } }) => (
-                    <View style={styles.optionsContainer}>
-                      {messageOptions.map((option) => (
-                        <RadioOption
-                          key={option.value}
-                          label={option.label}
-                          value={option.value}
-                          selected={maxMessagesPerDay === option.value}
-                          onPress={() => onChange(option.value)}
-                        />
-                      ))}
-                    </View>
+                    <RadioGroup
+                      options={messageOptions}
+                      selectedValue={maxMessagesPerDay}
+                      onValueChange={onChange}
+                      error={errors.maxMessagesPerDay?.message}
+                    />
                   )}
                 />
-                {errors.maxMessagesPerDay && (
-                  <Text style={GlobalStyles.errorText}>{errors.maxMessagesPerDay.message}</Text>
-                )}
               </View>
 
-              {/* Section Invitations */}
-              <View style={GlobalStyles.section}>
-                <Text style={styles.sectionTitle}>Nombre maximum d'invitations par jour:</Text>
+              <View style={FormStyles.formSection}>
+                <Text style={FormStyles.sectionTitleMedium}>
+                  Nombre maximum d'invitations par jour:
+                </Text>
                 <Controller
                   control={control}
                   name="maxInvitationsPerDay"
                   render={({ field: { onChange } }) => (
-                    <View style={styles.optionsContainer}>
-                      {invitationOptions.map((option) => (
-                        <RadioOption
-                          key={option.value}
-                          label={option.label}
-                          value={option.value}
-                          selected={maxInvitationsPerDay === option.value}
-                          onPress={() => onChange(option.value)}
-                        />
-                      ))}
-                    </View>
+                    <RadioGroup
+                      options={invitationOptions}
+                      selectedValue={maxInvitationsPerDay}
+                      onValueChange={onChange}
+                      error={errors.maxInvitationsPerDay?.message}
+                    />
                   )}
                 />
-                {errors.maxInvitationsPerDay && (
-                  <Text style={GlobalStyles.errorText}>{errors.maxInvitationsPerDay.message}</Text>
-                )}
               </View>
             </View>
           </View>
         </ScrollView>
 
-        <View style={GlobalStyles.footer}>
+        <View style={FormStyles.stepFooter}>
           <Button
             title="Finaliser l'essentiel"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             loading={loading}
             size="large"
+            style={FormStyles.fullWidthButton}
           />
         </View>
       </KeyboardAvoidingView>
     </View>
   );
-};
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background.primary,
-  },
-  keyboardContainer: {
-    flex: 1,
-  },
-  progressHeader: {
-    paddingTop: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.md,
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
-    overflow: 'hidden' as const,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.secondary,
-    borderRadius: 2,
-  },
-  mainTitle: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold' as const,
-    textAlign: 'center' as const,
-    marginBottom: Spacing.xs,
-  },
-  form: {
-    paddingBottom: Spacing.xl,
-  },
-  sectionTitle: {
-    fontSize: FontSizes.md,
-    fontWeight: '600' as const,
-    color: Colors.text.primary,
-    marginBottom: Spacing.lg,
-    lineHeight: 20,
-  },
-  optionsContainer: {
-    gap: Spacing.md,
-  },
-  radioOption: {
-    flexDirection: 'row' as const,
-    alignItems: 'center' as const,
-    paddingVertical: Spacing.sm,
-    gap: Spacing.md,
-  },
-  radioCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.border.medium,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
-  },
-  radioCircleSelected: {
-    borderColor: Colors.secondary,
-  },
-  radioInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: Colors.secondary,
-  },
-  radioLabel: {
-    fontSize: FontSizes.md,
-    color: Colors.text.primary,
-    flex: 1,
-  },
 };

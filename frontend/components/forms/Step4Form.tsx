@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -9,12 +8,12 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/Button';
-import { GradientText } from '../ui/GradientText';
+import { ProgressBar } from '../ui/ProgressBar';
+import { StepHeader } from '../ui/StepHeader';
 import { ImageUploader } from '../ui/ImageUploader';
 import { NavigationHeader } from '../ui/NavigationHeader';
 import { step4Schema, Step4FormData } from '../../utils/validation';
-import { GlobalStyles } from '../../styles/GlobalStyles';
-import { Colors, FontSizes, Spacing } from '../../constants/Colors';
+import { FormStyles } from '../../styles/FormStyles';
 
 interface Step4FormProps {
   onNext: (data: Step4FormData) => void;
@@ -32,8 +31,7 @@ export const Step4Form: React.FC<Step4FormProps> = ({
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
-    watch,
+    formState: { errors },
   } = useForm<Step4FormData>({
     resolver: zodResolver(step4Schema),
     mode: 'onChange',
@@ -43,9 +41,6 @@ export const Step4Form: React.FC<Step4FormProps> = ({
     },
   });
 
-  const portraitPhoto = watch('portraitPhoto');
-  const fullBodyPhoto = watch('fullBodyPhoto');
-
   const handleSkipPhotos = () => {
     console.log('Skip photos clicked - navigating to step 5');
     onNext({ portraitPhoto: '', fullBodyPhoto: '' });
@@ -53,36 +48,26 @@ export const Step4Form: React.FC<Step4FormProps> = ({
 
   const handleFormSubmit = (data: Step4FormData) => {
     console.log('Step4 form submitted with data:', data);
-    console.log('Form validation state - isValid:', isValid);
     onNext(data);
   };
 
   return (
-    <View style={styles.container}>
+    <View style={FormStyles.fullContainer}>
       <NavigationHeader showMenu={true} />
-      
-      {/* Header avec barre de progression */}
-      <View style={styles.progressHeader}>
-        <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: '80%' }]} />
-        </View>
-      </View>
+      <ProgressBar progress={80} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardContainer}
+        style={FormStyles.keyboardContainer}
       >
-        <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
-          <View style={GlobalStyles.content}>
-            <View style={GlobalStyles.header}>
-              <GradientText style={styles.mainTitle}>Création du profil</GradientText>
-              <Text style={GlobalStyles.title}>Montrez votre authenticité</Text>
-              <Text style={GlobalStyles.subtitle}>
-                Requis: photo de face + photo en pied
-              </Text>
-            </View>
+        <ScrollView style={FormStyles.keyboardContainer} showsVerticalScrollIndicator={false}>
+          <View style={FormStyles.stepContent}>
+            <StepHeader
+              title="Montrez votre authenticité"
+              subtitle="Requis: photo de face + photo en pied"
+            />
 
-            <View style={styles.form}>
+            <View style={FormStyles.stepForm}>
               <Controller
                 control={control}
                 name="portraitPhoto"
@@ -97,7 +82,7 @@ export const Step4Form: React.FC<Step4FormProps> = ({
                 )}
               />
               {errors.portraitPhoto && (
-                <Text style={GlobalStyles.errorText}>{errors.portraitPhoto.message}</Text>
+                <Text style={FormStyles.errorText}>{errors.portraitPhoto.message}</Text>
               )}
 
               <Controller
@@ -114,56 +99,22 @@ export const Step4Form: React.FC<Step4FormProps> = ({
                 )}
               />
               {errors.fullBodyPhoto && (
-                <Text style={GlobalStyles.errorText}>{errors.fullBodyPhoto.message}</Text>
+                <Text style={FormStyles.errorText}>{errors.fullBodyPhoto.message}</Text>
               )}
             </View>
           </View>
         </ScrollView>
 
-        <View style={GlobalStyles.footer}>
+        <View style={FormStyles.stepFooter}>
           <Button
             title="TEST - Force Step 5"
             onPress={handleSkipPhotos}
             variant="secondary"
             size="large"
+            style={FormStyles.fullWidthButton}
           />
         </View>
       </KeyboardAvoidingView>
     </View>
   );
-};
-
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background.primary,
-  },
-  keyboardContainer: {
-    flex: 1,
-  },
-  progressHeader: {
-    paddingTop: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.md,
-  },
-  progressBar: {
-    height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
-    overflow: 'hidden' as const,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: Colors.secondary,
-    borderRadius: 2,
-  },
-  mainTitle: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold' as const,
-    textAlign: 'center' as const,
-    marginBottom: Spacing.xs,
-  },
-  form: {
-    paddingBottom: Spacing.xl,
-  },
 };
