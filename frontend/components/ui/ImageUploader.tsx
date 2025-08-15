@@ -83,31 +83,36 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     }
   };
 
-  const takePhoto = async () => {
+  const takeMedia = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert(
-        'Permission nécessaire',
-        'Nous avons besoin de la permission pour utiliser la caméra.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Permission requise', 'Veuillez autoriser l\'accès à l\'appareil photo');
       return;
     }
 
     try {
       const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: false,
-        quality: 0.8,
-        base64: true,
+        mediaTypes: isVideo ? ImagePicker.MediaTypeOptions.Videos : ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: !isVideo, // Don't allow editing for videos
+        aspect: isVideo ? undefined : (isPortrait ? [3, 4] : [1, 1]),
+        quality: isVideo ? 0.8 : 0.8,
+        base64: !isVideo, // Don't get base64 for videos
+        ...(isVideo && { videoMaxDuration: 30 }), // 30 seconds max for videos
       });
 
       if (!result.canceled && result.assets[0]) {
-        const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
-        handleImageChange(base64Image);
+        if (isVideo) {
+          // For videos, we store the URI directly (not base64)
+          handleImageChange(result.assets[0].uri);
+        } else {
+          const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+          handleImageChange(base64Image);
+        }
         setShowActions(false);
       }
     } catch (error) {
-      Alert.alert('Erreur', 'Impossible de prendre la photo');
+      console.log('Camera error:', error);
+      Alert.alert('Erreur', `Impossible de prendre ${isVideo ? 'la vidéo' : 'la photo'}`);
     }
   };
 
