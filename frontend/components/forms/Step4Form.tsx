@@ -103,9 +103,10 @@ export const Step4Form: React.FC<Step4FormProps> = ({
 
         <View style={FormStyles.stepFooter}>
           <Button
-            title="TEST - Force Step 5"
-            onPress={handleSkipPhotos}
-            variant="secondary"
+            title="Suivant"
+            onPress={handleSubmit(handleFormSubmit)}
+            disabled={!isValid}
+            loading={loading}
             size="large"
             style={FormStyles.fullWidthButton}
           />
