@@ -110,13 +110,23 @@ export const Step4Form: React.FC<Step4FormProps> = ({
         </ScrollView>
 
         <View style={GlobalStyles.footer}>
-          <Button
-            title="Suivant"
-            onPress={handleSubmit(onNext)}
-            disabled={!isValid}
-            loading={loading}
-            size="large"
-          />
+          <View style={GlobalStyles.buttonContainer}>
+            <Button
+              title="Ignorer (test)"
+              onPress={() => handleSubmit(() => onNext({ portraitPhoto: '', fullBodyPhoto: '' }))()}
+              variant="outline"
+              size="large"
+              style={GlobalStyles.backButton}
+            />
+            <Button
+              title="Suivant"
+              onPress={handleSubmit(onNext)}
+              disabled={!isValid}
+              loading={loading}
+              size="large"
+              style={GlobalStyles.nextButton}
+            />
+          </View>
         </View>
       </KeyboardAvoidingView>
     </View>
