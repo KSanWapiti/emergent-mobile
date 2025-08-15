@@ -2,12 +2,12 @@ import React from 'react';
 import {
   TouchableOpacity,
   Text,
-  StyleSheet,
+  ActivityIndicator,
   ViewStyle,
   TextStyle,
-  ActivityIndicator,
 } from 'react-native';
-import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
+import { ButtonStyles } from '../../styles/ButtonStyles';
+import { FontSizes } from '../../constants/Colors';
 
 interface ButtonProps {
   title: string;
@@ -35,32 +35,39 @@ export const Button: React.FC<ButtonProps> = ({
 
   const isDisabled = disabled || loading;
 
-  if (variant === 'primary') {
-    return (
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={isDisabled}
-        style={[styles.button, styles.primaryButton, { height: buttonHeight, opacity: isDisabled ? 0.6 : 1 }, style]}
-        activeOpacity={0.8}
-      >
-        {loading ? (
-          <ActivityIndicator color="#FFFFFF" size="small" />
-        ) : (
-          <Text style={[styles.primaryButtonText, { fontSize }, textStyle]}>
-            {title}
-          </Text>
-        )}
-      </TouchableOpacity>
-    );
-  }
+  const getButtonStyle = () => {
+    switch (variant) {
+      case 'primary':
+        return ButtonStyles.primaryButton;
+      case 'secondary':
+        return ButtonStyles.secondaryButton;
+      case 'outline':
+        return ButtonStyles.outlineButton;
+      default:
+        return ButtonStyles.primaryButton;
+    }
+  };
+
+  const getTextStyle = () => {
+    switch (variant) {
+      case 'primary':
+        return ButtonStyles.primaryButtonText;
+      case 'secondary':
+        return ButtonStyles.secondaryButtonText;
+      case 'outline':
+        return ButtonStyles.outlineButtonText;
+      default:
+        return ButtonStyles.primaryButtonText;
+    }
+  };
 
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={isDisabled}
       style={[
-        styles.button,
-        variant === 'secondary' ? styles.secondaryButton : styles.outlineButton,
+        ButtonStyles.button,
+        getButtonStyle(),
         { height: buttonHeight, opacity: isDisabled ? 0.6 : 1 },
         style,
       ]}
@@ -68,56 +75,14 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {loading ? (
         <ActivityIndicator 
-          color={variant === 'secondary' ? '#FFFFFF' : Colors.secondary} 
+          color={variant === 'outline' ? '#FF5CA0' : '#FFFFFF'} 
           size="small" 
         />
       ) : (
-        <Text
-          style={[
-            variant === 'secondary' ? styles.secondaryButtonText : styles.outlineButtonText,
-            { fontSize },
-            textStyle,
-          ]}
-        >
+        <Text style={[getTextStyle(), { fontSize }, textStyle]}>
           {title}
         </Text>
       )}
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: BorderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: Spacing.lg,
-    minHeight: 44, // Minimum touch target for accessibility
-  },
-  primaryButton: {
-    backgroundColor: Colors.primary.start,
-  },
-  secondaryButton: {
-    backgroundColor: Colors.secondary,
-  },
-  outlineButton: {
-    borderWidth: 2,
-    borderColor: Colors.secondary,
-    backgroundColor: 'transparent',
-  },
-  primaryButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  secondaryButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  outlineButtonText: {
-    color: Colors.secondary,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-});

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   ActivityIndicator,
   SafeAreaView,
 } from 'react-native';
 import { router } from 'expo-router';
-import { Colors, Spacing, FontSizes } from '../constants/Colors';
+import { GlobalStyles } from '../styles/GlobalStyles';
+import { Colors, FontSizes } from '../constants/Colors';
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
@@ -32,15 +32,15 @@ export default function Index() {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.loadingContainer}>
+      <SafeAreaView style={GlobalStyles.container}>
+        <View style={[GlobalStyles.content, GlobalStyles.centered]}>
           <Text style={styles.logo}>Tyte</Text>
           <ActivityIndicator 
             size="large" 
             color={Colors.secondary} 
             style={styles.loader}
           />
-          <Text style={styles.loadingText}>Chargement...</Text>
+          <Text style={GlobalStyles.subtitle}>Chargement...</Text>
         </View>
       </SafeAreaView>
     );
@@ -49,28 +49,14 @@ export default function Index() {
   return null;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background.primary,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.xl,
-  },
+const styles = {
   logo: {
     fontSize: 48,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as const,
     color: Colors.text.primary,
-    marginBottom: Spacing.xl,
+    marginBottom: 32,
   },
   loader: {
-    marginBottom: Spacing.lg,
+    marginBottom: 24,
   },
-  loadingText: {
-    fontSize: FontSizes.md,
-    color: Colors.text.secondary,
-  },
-});
+};
