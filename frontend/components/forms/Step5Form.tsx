@@ -118,7 +118,7 @@ export const Step5Form: React.FC<Step5FormProps> = ({
 
         <View style={FormStyles.stepFooter}>
           <Button
-            title="Finaliser l'essentiel"
+            title="Suivant"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             loading={loading}
