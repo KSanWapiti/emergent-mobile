@@ -175,6 +175,14 @@ export default function RegisterScreen() {
           onNext={handleStep5Next}
           onBack={handleBack}
           defaultValues={registrationData.step5}
+        />
+      )}
+      {currentStep === 6 && (
+        <Step6Form
+          onNext={handleStep6Next}
+          onSkip={handleStep6Skip}
+          onBack={handleBack}
+          defaultValues={registrationData.step6}
           loading={loading}
         />
       )}
