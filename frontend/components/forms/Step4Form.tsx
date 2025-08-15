@@ -43,8 +43,9 @@ export const Step4Form: React.FC<Step4FormProps> = ({
     },
   });
 
-  const portraitPhoto = watch('portraitPhoto');
-  const fullBodyPhoto = watch('fullBodyPhoto');
+  const handleSkipPhotos = () => {
+    onNext({ portraitPhoto: '', fullBodyPhoto: '' });
+  };
 
   return (
     <View style={styles.container}>
