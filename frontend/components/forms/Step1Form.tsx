@@ -4,9 +4,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { StepIndicator } from '../ui/StepIndicator';
+import { GradientText } from '../ui/GradientText';
 import { step1Schema, Step1FormData } from '../../utils/validation';
 import { GlobalStyles } from '../../styles/GlobalStyles';
+import { Colors, FontSizes, Spacing } from '../../constants/Colors';
 
 interface Step1FormProps {
   onNext: (data: Step1FormData) => void;
@@ -34,13 +35,19 @@ export const Step1Form: React.FC<Step1FormProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={GlobalStyles.container}
     >
-      <View style={GlobalStyles.content}>
-        <StepIndicator totalSteps={3} currentStep={1} />
-        
+      {/* Header avec barre de progression */}
+      <View style={styles.progressHeader}>
+        <View style={styles.progressBar}>
+          <View style={[styles.progressFill, { width: '33%' }]} />
+        </View>
+      </View>
+
+      <View style={GlobalStyles.content}>        
         <View style={GlobalStyles.header}>
+          <GradientText style={styles.mainTitle}>Création du profil</GradientText>
           <Text style={GlobalStyles.title}>Choisissez votre pseudo</Text>
           <Text style={GlobalStyles.subtitle}>
-            Ce sera votre identité sur Tyte. Choisissez quelque chose qui vous représente !
+            Votre @unique dans l'app!
           </Text>
         </View>
 
@@ -53,7 +60,7 @@ export const Step1Form: React.FC<Step1FormProps> = ({
                 label="Pseudo"
                 value={value}
                 onChangeText={onChange}
-                placeholder="Ex: alex123"
+                placeholder="Ex: JeanSportif23"
                 autoCapitalize="none"
                 autoCorrect={false}
                 error={errors.pseudo?.message}
@@ -67,7 +74,7 @@ export const Step1Form: React.FC<Step1FormProps> = ({
 
       <View style={GlobalStyles.footer}>
         <Button
-          title="Continuer"
+          title="Suivant"
           onPress={handleSubmit(onNext)}
           disabled={!isValid}
           size="large"
@@ -75,4 +82,29 @@ export const Step1Form: React.FC<Step1FormProps> = ({
       </View>
     </KeyboardAvoidingView>
   );
+};
+
+const styles = {
+  progressHeader: {
+    paddingTop: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.md,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 2,
+    overflow: 'hidden' as const,
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: Colors.secondary,
+    borderRadius: 2,
+  },
+  mainTitle: {
+    fontSize: FontSizes.title,
+    fontWeight: 'bold' as const,
+    textAlign: 'center' as const,
+    marginBottom: Spacing.xs,
+  },
 };
