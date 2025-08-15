@@ -28,6 +28,11 @@ export const ButtonStyles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 
+  // Ghost button (transparent)
+  ghostButton: {
+    backgroundColor: 'transparent',
+  },
+
   // Button text styles
   primaryButtonText: {
     color: '#FFFFFF',
