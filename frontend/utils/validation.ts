@@ -47,12 +47,10 @@ export const step3Schema = z.object({
 export const step4Schema = z.object({
   portraitPhoto: z
     .string()
-    .optional()
-    .or(z.literal('')), // Accepte explicitement les chaînes vides
+    .min(1, 'La photo de portrait est requise'),
   fullBodyPhoto: z
     .string()
-    .optional()
-    .or(z.literal('')), // Accepte explicitement les chaînes vides
+    .min(1, 'La photo en pied est requise'),
 });
 
 export const step5Schema = z.object({
