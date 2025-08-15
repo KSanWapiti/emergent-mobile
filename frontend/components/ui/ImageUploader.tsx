@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { ImageCropper } from './ImageCropper';
 import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
 
 interface ImageUploaderProps {
@@ -17,6 +18,7 @@ interface ImageUploaderProps {
   value?: string; // base64 image
   onImageChange: (base64Image: string | null) => void;
   style?: any;
+  isPortrait?: boolean; // To determine circular or rectangular display
 }
 
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
@@ -25,8 +27,10 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   value,
   onImageChange,
   style,
+  isPortrait = false,
 }) => {
   const [showActions, setShowActions] = useState(false);
+  const [showCropper, setShowCropper] = useState(false);
 
   const requestPermission = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -48,8 +52,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [3, 4], // Portrait aspect ratio
+        allowsEditing: false, // We'll do custom cropping
         quality: 0.8,
         base64: true,
       });
@@ -77,8 +80,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
     try {
       const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-        aspect: [3, 4],
+        allowsEditing: false,
         quality: 0.8,
         base64: true,
       });
@@ -106,75 +108,102 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     setShowActions(false);
   };
 
+  const handleCrop = () => {
+    setShowActions(false);
+    setShowCropper(true);
+  };
+
+  const handleCropComplete = (croppedImage: string) => {
+    onImageChange(croppedImage);
+  };
+
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.label}>{label}</Text>
-      
-      <TouchableOpacity
-        style={[styles.imageContainer, !value && styles.emptyContainer]}
-        onPress={handleImagePress}
-        activeOpacity={0.8}
-      >
-        {value ? (
-          <Image source={{ uri: value }} style={styles.image} />
-        ) : (
-          <View style={styles.placeholderContainer}>
-            <View style={styles.cameraIcon}>
-              <Text style={styles.cameraIconText}>📷</Text>
+      <View style={styles.imageRow}>
+        <TouchableOpacity
+          style={[
+            styles.imageContainer,
+            isPortrait ? styles.circularContainer : styles.rectangularContainer,
+            !value && styles.emptyContainer
+          ]}
+          onPress={handleImagePress}
+          activeOpacity={0.8}
+        >
+          {value ? (
+            <Image 
+              source={{ uri: value }} 
+              style={[
+                styles.image,
+                isPortrait ? styles.circularImage : styles.rectangularImage
+              ]} 
+            />
+          ) : (
+            <View style={styles.placeholderContainer}>
+              <View style={styles.cameraIcon}>
+                <Text style={styles.cameraIconText}>📷</Text>
+              </View>
+              <Text style={styles.placeholderText}>{placeholder}</Text>
             </View>
-            <Text style={styles.placeholderText}>{placeholder}</Text>
+          )}
+        </TouchableOpacity>
+
+        {/* Action buttons when image is present */}
+        {value && (
+          <View style={styles.actionButtonsContainer}>
+            <TouchableOpacity style={styles.actionItem} onPress={pickImage}>
+              <Text style={styles.actionIcon}>📷</Text>
+              <Text style={styles.actionText}>Changer de photo</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionItem} onPress={handleCrop}>
+              <Text style={styles.actionIcon}>🔄</Text>
+              <Text style={styles.actionText}>Recadrer</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[styles.actionItem, styles.deleteAction]} onPress={deleteImage}>
+              <Text style={styles.actionIcon}>🗑️</Text>
+              <Text style={[styles.actionText, styles.deleteText]}>Supprimer</Text>
+            </TouchableOpacity>
           </View>
         )}
-      </TouchableOpacity>
+      </View>
 
-      {/* Actions Modal */}
-      <Modal
-        visible={showActions}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setShowActions(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Options de photo</Text>
-            
-            <TouchableOpacity style={styles.actionButton} onPress={pickImage}>
-              <Text style={styles.actionButtonText}>📷 Changer de photo</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.actionButton} onPress={takePhoto}>
-              <Text style={styles.actionButtonText}>🔄 Recadrer</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={[styles.actionButton, styles.deleteButton]} onPress={deleteImage}>
-              <Text style={[styles.actionButtonText, styles.deleteButtonText]}>🗑️ Supprimer</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.cancelButton} onPress={() => setShowActions(false)}>
-              <Text style={styles.cancelButtonText}>Annuler</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      {/* Image Cropper Modal */}
+      {value && (
+        <ImageCropper
+          visible={showCropper}
+          imageUri={value}
+          onClose={() => setShowCropper(false)}
+          onCropComplete={handleCropComplete}
+          aspectRatio={isPortrait ? [1, 1] : [3, 4]}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: Spacing.lg,
+    marginBottom: Spacing.xl,
   },
-  label: {
-    fontSize: FontSizes.md,
-    fontWeight: '600',
-    color: Colors.text.primary,
-    marginBottom: Spacing.sm,
+  imageRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: Spacing.lg,
   },
   imageContainer: {
-    width: '100%',
-    height: 200,
     borderRadius: BorderRadius.lg,
     overflow: 'hidden',
+  },
+  circularContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+  },
+  rectangularContainer: {
+    width: 120,
+    height: 160,
+    borderRadius: BorderRadius.lg,
   },
   emptyContainer: {
     borderWidth: 2,
@@ -189,74 +218,59 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
+  circularImage: {
+    borderRadius: 60,
+  },
+  rectangularImage: {
+    borderRadius: BorderRadius.lg,
+  },
   placeholderContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
   cameraIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: Colors.border.light,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: Spacing.md,
+    marginBottom: Spacing.sm,
   },
   cameraIconText: {
-    fontSize: 24,
+    fontSize: 16,
   },
   placeholderText: {
-    fontSize: FontSizes.sm,
+    fontSize: FontSizes.xs,
     color: Colors.text.secondary,
     textAlign: 'center',
   },
-  modalOverlay: {
+  actionButtonsContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
+    gap: Spacing.md,
   },
-  modalContent: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: BorderRadius.xl,
-    borderTopRightRadius: BorderRadius.xl,
-    padding: Spacing.xl,
-    paddingBottom: Spacing.xxl,
-  },
-  modalTitle: {
-    fontSize: FontSizes.lg,
-    fontWeight: '600',
-    color: Colors.text.primary,
-    textAlign: 'center',
-    marginBottom: Spacing.lg,
-  },
-  actionButton: {
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    backgroundColor: Colors.background.secondary,
-    marginBottom: Spacing.sm,
+  actionItem: {
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.md,
+    backgroundColor: Colors.background.secondary,
+    borderRadius: BorderRadius.sm,
+    gap: Spacing.sm,
   },
-  actionButtonText: {
+  actionIcon: {
     fontSize: FontSizes.md,
+  },
+  actionText: {
+    fontSize: FontSizes.sm,
     color: Colors.text.primary,
     fontWeight: '500',
   },
-  deleteButton: {
+  deleteAction: {
     backgroundColor: '#FEE2E2',
   },
-  deleteButtonText: {
+  deleteText: {
     color: Colors.error,
-  },
-  cancelButton: {
-    paddingVertical: Spacing.md,
-    alignItems: 'center',
-    marginTop: Spacing.sm,
-  },
-  cancelButtonText: {
-    fontSize: FontSizes.md,
-    color: Colors.text.secondary,
-    fontWeight: '500',
   },
 });

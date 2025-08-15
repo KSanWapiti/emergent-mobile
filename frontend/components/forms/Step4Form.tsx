@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/Button';
 import { GradientText } from '../ui/GradientText';
 import { ImageUploader } from '../ui/ImageUploader';
+import { NavigationHeader } from '../ui/NavigationHeader';
 import { step4Schema, Step4FormData } from '../../utils/validation';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import { Colors, FontSizes, Spacing } from '../../constants/Colors';
@@ -46,10 +47,9 @@ export const Step4Form: React.FC<Step4FormProps> = ({
   const fullBodyPhoto = watch('fullBodyPhoto');
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={GlobalStyles.container}
-    >
+    <View style={styles.container}>
+      <NavigationHeader showMenu={true} />
+      
       {/* Header avec barre de progression */}
       <View style={styles.progressHeader}>
         <View style={styles.progressBar}>
@@ -57,77 +57,80 @@ export const Step4Form: React.FC<Step4FormProps> = ({
         </View>
       </View>
 
-      <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
-        <View style={GlobalStyles.content}>
-          <View style={GlobalStyles.header}>
-            <GradientText style={styles.mainTitle}>Création du profil</GradientText>
-            <Text style={GlobalStyles.title}>Montrez votre authenticité</Text>
-            <Text style={GlobalStyles.subtitle}>
-              Requis: photo de face + photo en pied
-            </Text>
-          </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardContainer}
+      >
+        <ScrollView style={GlobalStyles.safeArea} showsVerticalScrollIndicator={false}>
+          <View style={GlobalStyles.content}>
+            <View style={GlobalStyles.header}>
+              <GradientText style={styles.mainTitle}>Création du profil</GradientText>
+              <Text style={GlobalStyles.title}>Montrez votre authenticité</Text>
+              <Text style={GlobalStyles.subtitle}>
+                Requis: photo de face + photo en pied
+              </Text>
+            </View>
 
-          <View style={GlobalStyles.form}>
-            <Controller
-              control={control}
-              name="portraitPhoto"
-              render={({ field: { onChange, value } }) => (
-                <ImageUploader
-                  label="Photo de portrait"
-                  placeholder="Ajouter Portrait Photo"
-                  value={value}
-                  onImageChange={onChange}
-                />
+            <View style={styles.form}>
+              <Controller
+                control={control}
+                name="portraitPhoto"
+                render={({ field: { onChange, value } }) => (
+                  <ImageUploader
+                    label=""
+                    placeholder="Portrait Photo"
+                    value={value}
+                    onImageChange={onChange}
+                    isPortrait={true}
+                  />
+                )}
+              />
+              {errors.portraitPhoto && (
+                <Text style={GlobalStyles.errorText}>{errors.portraitPhoto.message}</Text>
               )}
-            />
-            {errors.portraitPhoto && (
-              <Text style={GlobalStyles.errorText}>{errors.portraitPhoto.message}</Text>
-            )}
 
-            <Controller
-              control={control}
-              name="fullBodyPhoto" 
-              render={({ field: { onChange, value } }) => (
-                <ImageUploader
-                  label="Photo en pied"
-                  placeholder="Ajouter Plain-pied Photo"
-                  value={value}
-                  onImageChange={onChange}
-                />
+              <Controller
+                control={control}
+                name="fullBodyPhoto" 
+                render={({ field: { onChange, value } }) => (
+                  <ImageUploader
+                    label=""
+                    placeholder="Plain-pied Photo"
+                    value={value}
+                    onImageChange={onChange}
+                    isPortrait={false}
+                  />
+                )}
+              />
+              {errors.fullBodyPhoto && (
+                <Text style={GlobalStyles.errorText}>{errors.fullBodyPhoto.message}</Text>
               )}
-            />
-            {errors.fullBodyPhoto && (
-              <Text style={GlobalStyles.errorText}>{errors.fullBodyPhoto.message}</Text>
-            )}
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
 
-      <View style={GlobalStyles.footer}>
-        <View style={GlobalStyles.buttonContainer}>
-          <Button
-            title="Retour"
-            onPress={onBack}
-            variant="outline"
-            size="large"
-            style={GlobalStyles.backButton}
-            disabled={loading}
-          />
+        <View style={GlobalStyles.footer}>
           <Button
             title="Suivant"
             onPress={handleSubmit(onNext)}
             disabled={!isValid}
             loading={loading}
             size="large"
-            style={GlobalStyles.nextButton}
           />
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background.primary,
+  },
+  keyboardContainer: {
+    flex: 1,
+  },
   progressHeader: {
     paddingTop: Spacing.md,
     paddingHorizontal: Spacing.lg,
@@ -149,5 +152,8 @@ const styles = {
     fontWeight: 'bold' as const,
     textAlign: 'center' as const,
     marginBottom: Spacing.xs,
+  },
+  form: {
+    paddingBottom: Spacing.xl,
   },
 };
