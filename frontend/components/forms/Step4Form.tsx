@@ -47,7 +47,14 @@ export const Step4Form: React.FC<Step4FormProps> = ({
   const fullBodyPhoto = watch('fullBodyPhoto');
 
   const handleSkipPhotos = () => {
+    console.log('Skip photos clicked - navigating to step 5');
     onNext({ portraitPhoto: '', fullBodyPhoto: '' });
+  };
+
+  const handleFormSubmit = (data: Step4FormData) => {
+    console.log('Step4 form submitted with data:', data);
+    console.log('Form validation state - isValid:', isValid);
+    onNext(data);
   };
 
   return (
