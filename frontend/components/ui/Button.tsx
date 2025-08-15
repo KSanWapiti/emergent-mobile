@@ -43,6 +43,8 @@ export const Button: React.FC<ButtonProps> = ({
         return ButtonStyles.secondaryButton;
       case 'outline':
         return ButtonStyles.outlineButton;
+      case 'ghost':
+        return ButtonStyles.ghostButton;
       default:
         return ButtonStyles.primaryButton;
     }
@@ -56,6 +58,8 @@ export const Button: React.FC<ButtonProps> = ({
         return ButtonStyles.secondaryButtonText;
       case 'outline':
         return ButtonStyles.outlineButtonText;
+      case 'ghost':
+        return ButtonStyles.ghostButtonText;
       default:
         return ButtonStyles.primaryButtonText;
     }
