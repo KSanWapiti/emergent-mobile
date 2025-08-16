@@ -243,60 +243,94 @@ export default function Profiles() {
           <Text style={styles.backArrow}>←</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Profils</Text>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterIcon}>🔧</Text>
-        </TouchableOpacity>
+        <View style={styles.headerRight} />
       </View>
 
-      {/* Section Title and Controls */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionTitleContainer}>
-          <Text style={styles.sectionTitle}>Profils Recommandés</Text>
-          <Text style={styles.sectionSubtitle}>Filtrez selon vos préférences!</Text>
+      {/* Section Title and View Controls */}
+      <View style={styles.controlsContainer}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
+            {viewType === 'favorites' ? 'Mes favoris' : 'Profils Recommandés'}
+          </Text>
+          <Text style={styles.sectionSubtitle}>
+            {viewType === 'favorites' 
+              ? 'Vos favoris sur Tyte!' 
+              : 'Filtrez selon vos préférences!'
+            }
+          </Text>
         </View>
         
         <View style={styles.viewControls}>
           <TouchableOpacity 
             style={[
-              styles.viewButton,
-              viewMode === 'list' && styles.viewButtonActive
+              styles.viewButton, 
+              viewType === 'list' ? styles.viewButtonActive : styles.viewButtonInactive
             ]}
-            onPress={() => setViewMode('list')}
+            onPress={() => setViewType('list')}
           >
             <Text style={[
               styles.viewButtonText,
-              viewMode === 'list' && styles.viewButtonTextActive
-            ]}>📋 List</Text>
+              viewType === 'list' ? styles.viewButtonTextActive : styles.viewButtonTextInactive
+            ]}>
+              📋 List
+            </Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
             style={[
-              styles.viewButton,
-              viewMode === 'grid' && styles.viewButtonActive
+              styles.viewButton, 
+              viewType === 'grid' ? styles.viewButtonActive : styles.viewButtonInactive
             ]}
-            onPress={() => setViewMode('grid')}
+            onPress={() => setViewType('grid')}
           >
             <Text style={[
               styles.viewButtonText,
-              viewMode === 'grid' && styles.viewButtonTextActive
-            ]}>⊞ Grid</Text>
+              viewType === 'grid' ? styles.viewButtonTextActive : styles.viewButtonTextInactive
+            ]}>
+              🎛 Grid
+            </Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.shuffleButton}>
-            <Text style={styles.shuffleIcon}>🔀</Text>
+          <TouchableOpacity 
+            style={[
+              styles.favoriteToggleButton,
+              viewType === 'favorites' ? styles.favoriteToggleActive : styles.favoriteToggleInactive
+            ]}
+            onPress={() => setViewType(viewType === 'favorites' ? 'list' : 'favorites')}
+          >
+            <Text style={styles.favoriteToggleIcon}>⭐</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Filter Button */}
-      <View style={styles.filterSection}>
-        <TouchableOpacity style={styles.filterMainButton}>
-          <Text style={styles.filterText}>🔽 Filter</Text>
+      {/* Profiles Content */}
+      <View style={styles.contentContainer}>
+        {viewType === 'list' ? (
+          <FlatList
+            data={filteredProfiles}
+            renderItem={renderListItem}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.listContainer}
+          />
+        ) : (
+          <FlatList
+            data={filteredProfiles}
+            renderItem={renderGridItem}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.gridContainer}
+            columnWrapperStyle={styles.gridRow}
+          />
+        )}
+        
+        {/* Filter Button */}
+        <TouchableOpacity style={styles.filterButton}>
+          <Text style={styles.filterText}>Filter</Text>
+          <Text style={styles.filterIcon}>🎛</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Content */}
-      {viewMode === 'list' ? renderListView() : renderGridView()}
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNavigation}>
