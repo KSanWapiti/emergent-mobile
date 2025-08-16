@@ -64,10 +64,7 @@ export default function ForgotPassword() {
         [
           {
             text: 'OK',
-            onPress: () => {
-              // TODO: Naviguer vers la page de saisie des codes
-              router.back();
-            }
+            onPress: () => router.push('/auth/password-validation')
           }
         ]
       );
