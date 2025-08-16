@@ -321,7 +321,7 @@ export default function Profiles() {
             numColumns={2}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.gridContainer}
-            columnWrapperStyle={styles.gridRow}
+            key={viewType} // Force re-render when switching views
           />
         )}
         
