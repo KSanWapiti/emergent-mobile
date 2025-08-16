@@ -21,8 +21,14 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 export const DrawerMenu: React.FC<DrawerMenuProps> = ({ visible, onClose }) => {
   const handleMenuItemPress = (route: string) => {
     onClose();
-    // TODO: Navigate to the appropriate route
-    console.log(`Navigate to: ${route}`);
+    
+    // Navigate to the appropriate route
+    if (route === '/profile') {
+      router.push('/profile');
+    } else {
+      // TODO: Implement other routes
+      console.log(`Navigate to: ${route}`);
+    }
   };
 
   const menuItems = [
