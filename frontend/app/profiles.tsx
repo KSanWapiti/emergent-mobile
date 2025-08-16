@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Image,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import { router } from 'expo-router';
 import { NavigationHeader } from '../components/ui/NavigationHeader';
@@ -15,80 +16,129 @@ import { Colors, FontSizes, Spacing } from '../constants/Colors';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-interface UserProfile {
+interface Profile {
   id: string;
   username: string;
+  name: string;
   age: number;
   height: string;
   bodyType: string;
   city: string;
-  profileImage: string;
+  image: string;
   isFavorite: boolean;
+  interests: string[];
+  distance?: string;
 }
 
+type ViewType = 'list' | 'grid' | 'favorites';
+
 export default function Profiles() {
-  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
-  const [profiles, setProfiles] = useState<UserProfile[]>([
+  const [viewType, setViewType] = useState<ViewType>('list');
+  const [profiles, setProfiles] = useState<Profile[]>([
     {
       id: '1',
-      username: '@BrunaMachado',
+      username: '@RenaBlu',
+      name: 'Rena',
       age: 31,
       height: '1,80 m',
       bodyType: 'Athlétique',
       city: 'Paris',
-      profileImage: 'https://images.unsplash.com/photo-1494790108755-2616c96e1d0b?w=400&h=500&fit=crop&crop=face',
-      isFavorite: false,
+      image: 'https://images.unsplash.com/photo-1697551458746-b86ccf5049d4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwxfHxkaXZlcnNlJTIwcGVvcGxlJTIwcG9ydHJhaXRzfGVufDB8fHx8MTc1NTMzMTI3NHww&ixlib=rb-4.1.0&q=85',
+      isFavorite: true,
+      interests: ['Sport', 'Voyage', 'Cuisine'],
+      distance: '2 km'
     },
     {
       id: '2',
+      username: '@JoannaK',
+      name: 'Joanna',
+      age: 31,
+      height: '1,80 m',
+      bodyType: 'Athlétique',
+      city: 'Paris',
+      image: 'https://images.unsplash.com/photo-1688802928956-fa8139142c04?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMGFkdWx0cyUyMHBvcnRyYWl0c3xlbnwwfHx8fDE3NTUzMzEyNzl8MA&ixlib=rb-4.1.0&q=85',
+      isFavorite: true,
+      interests: ['Art', 'Musique', 'Danse'],
+      distance: '5 km'
+    },
+    {
+      id: '3',
+      username: '@MariahDoha',
+      name: 'Mariah',
+      age: 31,
+      height: '1,80 m',
+      bodyType: 'Athlétique',
+      city: 'Paris',
+      image: 'https://images.unsplash.com/photo-1682074441410-8435f068ca95?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwyfHx5b3VuZyUyMGFkdWx0cyUyMHBvcnRyYWl0c3xlbnwwfHx8fDE3NTUzMzEyNzl8MA&ixlib=rb-4.1.0&q=85',
+      isFavorite: true,
+      interests: ['Lecture', 'Voyage', 'Fitness'],
+      distance: '8 km'
+    },
+    {
+      id: '4',
+      username: '@BrunaMachado',
+      name: 'Bruna',
+      age: 31,
+      height: '1,80 m',
+      bodyType: 'Athlétique',
+      city: 'Paris',
+      image: 'https://images.unsplash.com/photo-1679466061812-211a6b737175?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHwzfHxkaXZlcnNlJTIwcGVvcGxlJTIwcG9ydHJhaXRzfGVufDB8fHx8MTc1NTMzMTI3NHww&ixlib=rb-4.1.0&q=85',
+      isFavorite: false,
+      interests: ['Photographie', 'Nature', 'Café'],
+      distance: '3 km'
+    },
+    {
+      id: '5',
       username: '@MarcelleSilva',
+      name: 'Marcelle',
       age: 31,
       height: '1,80 m',
       bodyType: 'Athlétique',
       city: 'Lyon',
-      profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&crop=face',
+      image: 'https://images.unsplash.com/photo-1691510112583-0dac7bbe460f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwzfHx5b3VuZyUyMGFkdWx0cyUyMHBvcnRyYWl0c3xlbnwwfHx8fDE3NTUzMzEyNzl8MA&ixlib=rb-4.1.0&q=85',
       isFavorite: false,
+      interests: ['Mode', 'Cinéma', 'Restaurant'],
+      distance: '12 km'
     },
     {
-      id: '3',
+      id: '6',
       username: '@MonicaLourh',
+      name: 'Monica',
       age: 31,
       height: '1,80 m',
       bodyType: 'Athlétique',
       city: 'Marseille',
-      profileImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face',
+      image: 'https://images.unsplash.com/photo-1610104687526-e2d1d5f8e9ab?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHw0fHx5b3VuZyUyMGFkdWx0cyUyMHBvcnRyYWl0c3xlbnwwfHx8fDE3NTUzMzEyNzl8MA&ixlib=rb-4.1.0&q=85',
       isFavorite: false,
+      interests: ['Yoga', 'Méditation', 'Plage'],
+      distance: '15 km'
     },
     {
-      id: '4',
+      id: '7',
       username: '@BellaRouge',
+      name: 'Bella',
       age: 31,
       height: '1,80 m',
       bodyType: 'Athlétique',
       city: 'Bordeaux',
-      profileImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face',
+      image: 'https://images.pexels.com/photos/2513393/pexels-photo-2513393.jpeg',
       isFavorite: false,
+      interests: ['Vin', 'Gastronomie', 'Histoire'],
+      distance: '20 km'
     },
     {
-      id: '5',
-      username: '@SophiaLane',
+      id: '8',
+      username: '@SofiaLuna',
+      name: 'Sofia',
       age: 28,
-      height: '1,75 m',
+      height: '1,70 m',
       bodyType: 'Mince',
       city: 'Nice',
-      profileImage: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face',
+      image: 'https://images.pexels.com/photos/3851554/pexels-photo-3851554.jpeg',
       isFavorite: false,
-    },
-    {
-      id: '6',
-      username: '@CamilleRose',
-      age: 29,
-      height: '1,68 m',
-      bodyType: 'Normal',
-      city: 'Toulouse',
-      profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face',
-      isFavorite: false,
-    },
+      interests: ['Plongée', 'Surf', 'Plage'],
+      distance: '25 km'
+    }
   ]);
 
   const toggleFavorite = (profileId: string) => {
