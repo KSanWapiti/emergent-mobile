@@ -141,25 +141,26 @@ export default function Profiles() {
     }
   ]);
 
-  const toggleFavorite = (profileId: string) => {
-    setProfiles(prevProfiles =>
-      prevProfiles.map(profile =>
-        profile.id === profileId
-          ? { ...profile, isFavorite: !profile.isFavorite }
-          : profile
-      )
-    );
+  const handleFavoriteToggle = (profileId: string) => {
+    setProfiles(prev => prev.map(profile => 
+      profile.id === profileId 
+        ? { ...profile, isFavorite: !profile.isFavorite }
+        : profile
+    ));
   };
 
   const handleViewProfile = (profileId: string) => {
-    // TODO: Navigate to profile detail
+    // TODO: Navigate to detailed profile view
     console.log(`View profile: ${profileId}`);
-    router.push(`/profile/${profileId}`);
   };
 
   const handleNavigation = (route: string) => {
     router.push(route);
   };
+
+  const filteredProfiles = viewType === 'favorites' 
+    ? profiles.filter(profile => profile.isFavorite)
+    : profiles;
 
   const renderListView = () => (
     <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
