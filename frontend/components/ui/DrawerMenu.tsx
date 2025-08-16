@@ -25,6 +25,8 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({ visible, onClose }) => {
     // Navigate to the appropriate route
     if (route === '/profile') {
       router.push('/profile');
+    } else if (route === '/activities') {
+      router.push('/activities');
     } else {
       // TODO: Implement other routes
       console.log(`Navigate to: ${route}`);
