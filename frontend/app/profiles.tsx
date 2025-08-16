@@ -206,7 +206,7 @@ export default function Profiles() {
 
   const renderGridItem = ({ item: profile, index }: { item: Profile; index: number }) => (
     <TouchableOpacity 
-      style={[styles.gridCard, { marginLeft: index % 2 === 0 ? 0 : Spacing.sm }]}
+      style={styles.gridCard}
       onPress={() => handleViewProfile(profile.id)}
     >
       <Image source={{ uri: profile.image }} style={styles.gridImage} />
