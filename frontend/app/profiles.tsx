@@ -559,10 +559,6 @@ const styles = StyleSheet.create({
   gridContainer: {
     padding: Spacing.lg,
   },
-  gridRow: {
-    justifyContent: 'space-between',
-    marginBottom: Spacing.lg,
-  },
   gridCard: {
     width: (screenWidth - (Spacing.lg * 2) - Spacing.sm) / 2,
     backgroundColor: '#FFFFFF',
@@ -577,6 +573,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     overflow: 'hidden',
     position: 'relative',
+    marginBottom: Spacing.lg,
   },
   gridImage: {
     width: '100%',
