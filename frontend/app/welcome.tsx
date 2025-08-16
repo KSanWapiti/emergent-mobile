@@ -30,8 +30,7 @@ export default function Welcome() {
   };
 
   const handleSignIn = () => {
-    // TODO: Navigate to sign in page
-    console.log('Sign in pressed');
+    router.push('/auth/login');
   };
 
   return (
