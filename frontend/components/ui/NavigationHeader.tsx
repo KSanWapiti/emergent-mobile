@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
+import { DrawerMenu } from './DrawerMenu';
 import { Colors, Spacing, FontSizes } from '../../constants/Colors';
 
 interface NavigationHeaderProps {
@@ -17,31 +18,52 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   onMenuPress,
   showMenu = true,
 }) => {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
+  const handleMenuPress = () => {
+    if (onMenuPress) {
+      onMenuPress();
+    } else {
+      setIsMenuVisible(true);
+    }
+  };
+
+  const handleCloseMenu = () => {
+    setIsMenuVisible(false);
+  };
+
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        {showMenu && (
-          <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-            <View style={styles.menuIcon}>
-              <View style={styles.menuLine} />
-              <View style={styles.menuLine} />
-              <View style={styles.menuLine} />
+    <>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.header}>
+          {showMenu && (
+            <TouchableOpacity onPress={handleMenuPress} style={styles.menuButton}>
+              <View style={styles.menuIcon}>
+                <View style={styles.menuLine} />
+                <View style={styles.menuLine} />
+                <View style={styles.menuLine} />
+              </View>
+            </TouchableOpacity>
+          )}
+          
+          <View style={styles.logoContainer}>
+            <View style={styles.heartLogo}>
+              <View style={[styles.heartLeft, styles.heartPart]} />
+              <View style={[styles.heartRight, styles.heartPart]} />
+              <View style={styles.heartBottom} />
             </View>
-          </TouchableOpacity>
-        )}
-        
-        <View style={styles.logoContainer}>
-          <View style={styles.heartLogo}>
-            <View style={[styles.heartLeft, styles.heartPart]} />
-            <View style={[styles.heartRight, styles.heartPart]} />
-            <View style={styles.heartBottom} />
+            <Text style={styles.logoText}>tyte</Text>
           </View>
-          <Text style={styles.logoText}>tyte</Text>
+          
+          <View style={styles.rightSpace} />
         </View>
-        
-        <View style={styles.rightSpace} />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+
+      <DrawerMenu 
+        visible={isMenuVisible}
+        onClose={handleCloseMenu}
+      />
+    </>
   );
 };
 
