@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Développe une application mobile en react native, tailwind css et tanstack query. L'application doit être adapté pour IOS et Android, elle utilisera Expo EAS. C'est une application de rencontre qui n'utilise pas d'algorithme. L'application se nomme Tyte. Multi-step registration with pseudo, personal info, and profile details."
+user_problem_statement: "Développe une application mobile en react native, tailwind css et tanstack query. L'application doit être adapté pour IOS et Android, elle utilisera Expo EAS. C'est une application de rencontre qui n'utilise pas d'algorithme. L'application se nomme Tyte. Multi-step registration with pseudo, personal info, and profile details. Développe maintenant la page Profils recommandant des profils du sexe opposé. L'utilisateur peut choisir s'il veut la vue en liste ou la vue en grille. Il peut aussi enregistrer un profil en favori."
 
 backend:
   - task: "Basic FastAPI setup with MongoDB"
@@ -189,6 +189,42 @@ frontend:
       - working: true
         agent: "main"
         comment: "UI components display correctly with Tyte color scheme"
+
+  - task: "Activities page with categories and popular activities"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/activities.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Activities page working with 8 categories and popular activities carousel"
+
+  - task: "Profile page displaying user information"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/profile.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Profile page displays user information with photos, details and action buttons"
+
+  - task: "Profiles page with list/grid views and favorites system"
+    implemented: true
+    working: true
+    file: "/app/frontend/app/profiles.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Profiles page fully functional with list view, grid view, and favorites system. Displays recommended profiles with proper navigation and UI controls"
 
 metadata:
   created_by: "main_agent"
