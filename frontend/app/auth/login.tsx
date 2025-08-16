@@ -74,11 +74,7 @@ export default function Login() {
   };
 
   const handleForgotPassword = () => {
-    Alert.alert(
-      'Mot de passe oublié',
-      'Fonctionnalité de récupération de mot de passe en cours de développement',
-      [{ text: 'OK' }]
-    );
+    router.push('/auth/forgot-password');
   };
 
   const handleCreateAccount = () => {
