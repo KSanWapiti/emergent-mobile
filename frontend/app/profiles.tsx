@@ -162,103 +162,75 @@ export default function Profiles() {
     ? profiles.filter(profile => profile.isFavorite)
     : profiles;
 
-  const renderListView = () => (
-    <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-      <View style={styles.profilesList}>
-        {profiles.map((profile) => (
-          <View key={profile.id} style={styles.listProfileCard}>
-            <Image source={{ uri: profile.profileImage }} style={styles.listProfileImage} />
-            
-            <TouchableOpacity 
-              style={styles.favoriteButton}
-              onPress={() => toggleFavorite(profile.id)}
-            >
-              <Text style={[
-                styles.favoriteIcon,
-                profile.isFavorite && styles.favoriteIconActive
-              ]}>
-                {profile.isFavorite ? '⭐' : '☆'}
-              </Text>
-            </TouchableOpacity>
-            
-            <View style={styles.listProfileInfo}>
-              <Text style={styles.listProfileUsername}>{profile.username}</Text>
-              
-              <View style={styles.listProfileDetails}>
-                <View style={styles.listDetailItem}>
-                  <Text style={styles.listDetailIcon}>🎂</Text>
-                  <Text style={styles.listDetailText}>{profile.age} Ans</Text>
-                </View>
-                
-                <View style={styles.listDetailItem}>
-                  <Text style={styles.listDetailIcon}>📏</Text>
-                  <Text style={styles.listDetailText}>{profile.height}</Text>
-                </View>
-                
-                <View style={styles.listDetailItem}>
-                  <Text style={styles.listDetailIcon}>💪</Text>
-                  <Text style={styles.listDetailText}>{profile.bodyType}</Text>
-                </View>
-                
-                <View style={styles.listDetailItem}>
-                  <Text style={styles.listDetailIcon}>💖</Text>
-                  <Text style={styles.listDetailText}>{profile.city}</Text>
-                </View>
-              </View>
-              
-              <TouchableOpacity 
-                style={styles.viewProfileButton}
-                onPress={() => handleViewProfile(profile.id)}
-              >
-                <Text style={styles.viewProfileButtonText}>Voir le profil</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ))}
+  const renderListItem = ({ item: profile }: { item: Profile }) => (
+    <View style={styles.listCard}>
+      <TouchableOpacity 
+        style={styles.listImageContainer}
+        onPress={() => handleViewProfile(profile.id)}
+      >
+        <Image source={{ uri: profile.image }} style={styles.listImage} />
+      </TouchableOpacity>
+      
+      <View style={styles.listContent}>
+        <View style={styles.listHeader}>
+          <Text style={styles.listUsername}>{profile.username}</Text>
+          <TouchableOpacity 
+            onPress={() => handleFavoriteToggle(profile.id)}
+            style={styles.favoriteButton}
+          >
+            <Text style={[
+              styles.favoriteIcon, 
+              profile.isFavorite ? styles.favoriteIconActive : styles.favoriteIconInactive
+            ]}>
+              ⭐
+            </Text>
+          </TouchableOpacity>
+        </View>
+        
+        <View style={styles.listInfo}>
+          <Text style={styles.listAge}>🎂 {profile.age} Ans</Text>
+          <Text style={styles.listHeight}>📏 {profile.height}</Text>
+          <Text style={styles.listBodyType}>💪 {profile.bodyType}</Text>
+          <Text style={styles.listLocation}>📍 {profile.city}</Text>
+        </View>
+        
+        <TouchableOpacity 
+          style={styles.viewProfileButton}
+          onPress={() => handleViewProfile(profile.id)}
+        >
+          <Text style={styles.viewProfileText}>Voir le profil</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 
-  const renderGridView = () => (
-    <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-      <View style={styles.profilesGrid}>
-        {profiles.map((profile) => (
-          <TouchableOpacity 
-            key={profile.id} 
-            style={styles.gridProfileCard}
-            onPress={() => handleViewProfile(profile.id)}
-          >
-            <Image source={{ uri: profile.profileImage }} style={styles.gridProfileImage} />
-            
-            <TouchableOpacity 
-              style={styles.gridFavoriteButton}
-              onPress={() => toggleFavorite(profile.id)}
-            >
-              <Text style={[
-                styles.favoriteIcon,
-                profile.isFavorite && styles.favoriteIconActive
-              ]}>
-                {profile.isFavorite ? '⭐' : '☆'}
-              </Text>
-            </TouchableOpacity>
-            
-            <View style={styles.gridProfileInfo}>
-              <Text style={styles.gridProfileUsername}>{profile.username}</Text>
-              
-              <View style={styles.gridProfileDetails}>
-                <Text style={styles.gridDetailText}>🎂 {profile.age} Ans</Text>
-                <Text style={styles.gridDetailText}>📏 {profile.height}</Text>
-              </View>
-              
-              <View style={styles.gridProfileDetails}>
-                <Text style={styles.gridDetailText}>💪 {profile.bodyType}</Text>
-                <Text style={styles.gridDetailText}>💖 {profile.city}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+  const renderGridItem = ({ item: profile, index }: { item: Profile; index: number }) => (
+    <TouchableOpacity 
+      style={[styles.gridCard, { marginLeft: index % 2 === 0 ? 0 : Spacing.sm }]}
+      onPress={() => handleViewProfile(profile.id)}
+    >
+      <Image source={{ uri: profile.image }} style={styles.gridImage} />
+      
+      <TouchableOpacity 
+        style={styles.gridFavoriteButton}
+        onPress={() => handleFavoriteToggle(profile.id)}
+      >
+        <Text style={[
+          styles.gridFavoriteIcon, 
+          profile.isFavorite ? styles.favoriteIconActive : styles.favoriteIconInactive
+        ]}>
+          ⭐
+        </Text>
+      </TouchableOpacity>
+      
+      <View style={styles.gridContent}>
+        <Text style={styles.gridUsername}>{profile.username}</Text>
+        <Text style={styles.gridAge}>🎂 {profile.age} Ans</Text>
+        <Text style={styles.gridHeight}>📏 {profile.height}</Text>
+        <Text style={styles.gridBodyType}>💪 {profile.bodyType}</Text>
+        <Text style={styles.gridLocation}>📍 {profile.city}</Text>
       </View>
-    </ScrollView>
+    </TouchableOpacity>
   );
 
   return (
