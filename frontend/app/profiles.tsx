@@ -397,18 +397,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.secondary,
   },
-  filterButton: {
-    padding: Spacing.sm,
+  headerRight: {
+    width: 40,
   },
-  filterIcon: {
-    fontSize: 20,
-  },
-  sectionHeader: {
+  controlsContainer: {
+    backgroundColor: '#F8F9FA',
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
-    backgroundColor: '#F8F9FA',
   },
-  sectionTitleContainer: {
+  sectionHeader: {
     marginBottom: Spacing.md,
   },
   sectionTitle: {
@@ -424,185 +421,237 @@ const styles = StyleSheet.create({
   viewControls: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    gap: Spacing.sm,
   },
   viewButton: {
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
     borderRadius: 20,
-    marginLeft: Spacing.sm,
+    borderWidth: 1,
   },
   viewButtonActive: {
     backgroundColor: Colors.secondary,
+    borderColor: Colors.secondary,
+  },
+  viewButtonInactive: {
+    backgroundColor: 'transparent',
+    borderColor: '#E0E0E0',
   },
   viewButtonText: {
-    fontSize: FontSizes.md,
-    color: Colors.text.secondary,
-    fontWeight: '500',
+    fontSize: FontSizes.sm,
+    fontWeight: '600',
   },
   viewButtonTextActive: {
     color: '#FFFFFF',
-    fontWeight: '600',
   },
-  shuffleButton: {
-    padding: Spacing.sm,
-    marginLeft: Spacing.sm,
+  viewButtonTextInactive: {
+    color: Colors.text.secondary,
   },
-  shuffleIcon: {
-    fontSize: 18,
+  favoriteToggleButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 'auto',
   },
-  filterSection: {
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.sm,
-    alignItems: 'flex-end',
+  favoriteToggleActive: {
+    backgroundColor: Colors.secondary,
   },
-  filterMainButton: {
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm,
+  favoriteToggleInactive: {
+    backgroundColor: '#E0E0E0',
   },
-  filterText: {
-    fontSize: FontSizes.md,
-    color: Colors.secondary,
-    fontWeight: '500',
+  favoriteToggleIcon: {
+    fontSize: 20,
   },
-  scrollView: {
+  contentContainer: {
     flex: 1,
+    position: 'relative',
   },
-  
-  // List View Styles
-  profilesList: {
+  listContainer: {
     padding: Spacing.lg,
   },
-  listProfileCard: {
+  listCard: {
+    flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
     marginBottom: Spacing.lg,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    position: 'relative',
+    overflow: 'hidden',
   },
-  listProfileImage: {
+  listImageContainer: {
+    width: 120,
+  },
+  listImage: {
     width: '100%',
-    height: 300,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    height: 160,
+  },
+  listContent: {
+    flex: 1,
+    padding: Spacing.md,
+    justifyContent: 'space-between',
+  },
+  listHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: Spacing.sm,
+  },
+  listUsername: {
+    fontSize: FontSizes.lg,
+    fontWeight: 'bold',
+    color: Colors.secondary,
+    flex: 1,
   },
   favoriteButton: {
-    position: 'absolute',
-    top: Spacing.md,
-    right: Spacing.md,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: Spacing.xs,
   },
   favoriteIcon: {
-    fontSize: 24,
+    fontSize: 20,
   },
   favoriteIconActive: {
     color: '#FFD700',
   },
-  listProfileInfo: {
-    padding: Spacing.md,
+  favoriteIconInactive: {
+    color: '#E0E0E0',
   },
-  listProfileUsername: {
-    fontSize: FontSizes.lg,
-    fontWeight: 'bold',
-    color: Colors.secondary,
-    marginBottom: Spacing.sm,
-  },
-  listProfileDetails: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  listInfo: {
     marginBottom: Spacing.md,
   },
-  listDetailItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '50%',
+  listAge: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.primary,
     marginBottom: Spacing.xs,
   },
-  listDetailIcon: {
-    fontSize: 16,
-    marginRight: Spacing.sm,
+  listHeight: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
   },
-  listDetailText: {
-    fontSize: FontSizes.md,
+  listBodyType: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.primary,
+    marginBottom: Spacing.xs,
+  },
+  listLocation: {
+    fontSize: FontSizes.sm,
     color: Colors.text.primary,
   },
   viewProfileButton: {
     borderWidth: 2,
     borderColor: Colors.secondary,
-    borderRadius: 25,
-    paddingVertical: Spacing.md,
+    borderRadius: 20,
+    paddingVertical: Spacing.sm,
     alignItems: 'center',
   },
-  viewProfileButtonText: {
-    fontSize: FontSizes.md,
+  viewProfileText: {
     color: Colors.secondary,
     fontWeight: '600',
+    fontSize: FontSizes.sm,
   },
-
-  // Grid View Styles
-  profilesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  gridContainer: {
     padding: Spacing.lg,
-    justifyContent: 'space-between',
   },
-  gridProfileCard: {
-    width: (screenWidth - 48) / 2 - 8,
+  gridRow: {
+    justifyContent: 'space-between',
+    marginBottom: Spacing.lg,
+  },
+  gridCard: {
+    width: (screenWidth - (Spacing.lg * 2) - Spacing.sm) / 2,
     backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    marginBottom: Spacing.lg,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    overflow: 'hidden',
     position: 'relative',
   },
-  gridProfileImage: {
+  gridImage: {
     width: '100%',
     height: 200,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
   },
   gridFavoriteButton: {
     position: 'absolute',
     top: Spacing.sm,
     right: Spacing.sm,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 15,
+    width: 30,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  gridProfileInfo: {
-    padding: Spacing.md,
+  gridFavoriteIcon: {
+    fontSize: 16,
   },
-  gridProfileUsername: {
+  gridContent: {
+    padding: Spacing.sm,
+  },
+  gridUsername: {
     fontSize: FontSizes.md,
     fontWeight: 'bold',
     color: Colors.secondary,
-    marginBottom: Spacing.sm,
-  },
-  gridProfileDetails: {
     marginBottom: Spacing.xs,
   },
-  gridDetailText: {
-    fontSize: FontSizes.sm,
+  gridAge: {
+    fontSize: FontSizes.xs,
     color: Colors.text.primary,
-    marginBottom: Spacing.xs,
+    marginBottom: 2,
   },
-
-  // Bottom Navigation
+  gridHeight: {
+    fontSize: FontSizes.xs,
+    color: Colors.text.primary,
+    marginBottom: 2,
+  },
+  gridBodyType: {
+    fontSize: FontSizes.xs,
+    color: Colors.text.primary,
+    marginBottom: 2,
+  },
+  gridLocation: {
+    fontSize: FontSizes.xs,
+    color: Colors.text.primary,
+  },
+  filterButton: {
+    position: 'absolute',
+    bottom: Spacing.xl,
+    right: Spacing.xl,
+    backgroundColor: Colors.secondary,
+    borderRadius: 25,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  filterText: {
+    color: '#FFFFFF',
+    fontSize: FontSizes.md,
+    fontWeight: '600',
+    marginRight: Spacing.sm,
+  },
+  filterIcon: {
+    fontSize: 18,
+  },
   bottomNavigation: {
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
