@@ -423,33 +423,4 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.lg,
     color: Colors.text.secondary,
   },
-  toast: {
-    position: 'absolute',
-    bottom: 100,
-    left: Spacing.lg,
-    right: Spacing.lg,
-    borderRadius: 25,
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.lg,
-    alignItems: 'center',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
-  toastSuccess: {
-    backgroundColor: Colors.secondary,
-  },
-  toastError: {
-    backgroundColor: '#FF5CA0',
-  },
-  toastText: {
-    color: '#FFFFFF',
-    fontSize: FontSizes.md,
-    fontWeight: '600',
-  },
 });
