@@ -210,6 +210,52 @@ export default function Messages() {
     }
   };
 
+  const renderInvitation = (invitation: Invitation) => (
+    <View key={invitation.id} style={styles.invitationCard}>
+      <Image source={{ uri: invitation.inviterAvatar }} style={styles.invitationAvatar} />
+      
+      <View style={styles.invitationContent}>
+        <View style={styles.invitationHeader}>
+          <Text style={styles.invitationInviter}>
+            <Text style={styles.inviterName}>{invitation.inviterName}</Text>
+            <Text style={styles.invitationText}> vous invite à </Text>
+            <Text style={styles.activityName}>{invitation.activityTitle}</Text>
+          </Text>
+        </View>
+        
+        <View style={styles.invitationDetails}>
+          <Text style={styles.invitationDate}>📅 {invitation.activityDate}</Text>
+          <Text style={styles.invitationTime}>🕐 {invitation.activityTime}</Text>
+          <Text style={styles.invitationLocation}>📍 {invitation.activityLocation}</Text>
+        </View>
+
+        {invitation.isAccepted ? (
+          <View style={styles.acceptedStatus}>
+            <Text style={styles.acceptedText}>
+              ✅ Vous vous êtes inscrit le {invitation.acceptedDate}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.invitationActions}>
+            <TouchableOpacity 
+              style={styles.declineInvitationButton}
+              onPress={() => handleInvitationAction(invitation.id, 'decline')}
+            >
+              <Text style={styles.declineInvitationText}>Je ne suis pas intéressé</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.acceptInvitationButton}
+              onPress={() => handleInvitationAction(invitation.id, 'accept')}
+            >
+              <Text style={styles.acceptInvitationText}>Accepter</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    </View>
+  );
+
   const renderMessage = (message: Message) => (
     <View key={message.id} style={styles.messageCard}>
       <Image source={{ uri: message.avatar }} style={styles.avatar} />
