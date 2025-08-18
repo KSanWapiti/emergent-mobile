@@ -18,6 +18,30 @@ import { Colors, FontSizes, Spacing } from '../constants/Colors';
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Profile() {
+  const mockUserData = {
+    username: '@RaphaelAreas',
+    location: 'Chantilly, Oise',
+    age: '34 Ans',
+    height: '1m65',
+    bodyType: 'Athlétique',
+    profileImages: [
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face',
+    ],
+    details: {
+      ethnicType: 'Latino-américain',
+      religion: 'Catholique',
+      education: '?????????????',
+      hairColor: 'Brun Court',
+      smoker: 'Non-fumeur',
+      socialCategory: 'Designer',
+      languages: 'Anglais, Portugais',
+      hobbies: 'Jeux en ligne, Randonnée, Lecture',
+      presentation: 'Designer brésilien vivant en France. Passionné par les jeux vidéo, la nature et les échanges culturels. Toujours à la recherche de nouvelles inspirations créatives et de rencontres authentiques.',
+    },
+    hasVideo: true,
+  };
 
   return (
     <SafeAreaView style={styles.container}>
