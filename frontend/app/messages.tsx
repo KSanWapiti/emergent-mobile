@@ -233,14 +233,12 @@ export default function Messages() {
       )}
 
       {/* Toast Message */}
-      {toastMessage && (
-        <View style={[
-          styles.toast,
-          toastType === 'success' ? styles.toastSuccess : styles.toastError
-        ]}>
-          <Text style={styles.toastText}>{toastMessage}</Text>
-        </View>
-      )}
+      <Toast 
+        message={toastMessage}
+        type={toastType}
+        visible={toastVisible}
+        onHide={hideToast}
+      />
 
       <BottomNavigation activeTab="messages" />
     </SafeAreaView>
