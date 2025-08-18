@@ -79,9 +79,11 @@ export default function Messages() {
   const showToast = (message: string, type: 'success' | 'error') => {
     setToastMessage(message);
     setToastType(type);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
+    setToastVisible(true);
+  };
+
+  const hideToast = () => {
+    setToastVisible(false);
   };
 
   const handleAction = (messageId: string, action: 'accept' | 'later' | 'decline', userName: string) => {
