@@ -155,10 +155,6 @@ export default function Profiles() {
     router.push(`/profiles/${profileId}`);
   };
 
-  const handleNavigation = (route: string) => {
-    router.push(route);
-  };
-
   const filteredProfiles = viewType === 'favorites' 
     ? profiles.filter(profile => profile.isFavorite)
     : profiles;
