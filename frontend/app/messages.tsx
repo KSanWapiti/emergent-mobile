@@ -362,7 +362,9 @@ export default function Messages() {
       <ScrollView style={styles.messagesList} showsVerticalScrollIndicator={false}>
         {activeTab === 'messages' && messages.map(renderMessage)}
         
-        {activeTab === 'invitations' && (
+        {activeTab === 'invitations' && invitations.map(renderInvitation)}
+        
+        {activeTab === 'invitations' && invitations.length === 0 && (
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateText}>Aucune invitation pour le moment</Text>
           </View>
