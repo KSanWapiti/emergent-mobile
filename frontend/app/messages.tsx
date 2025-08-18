@@ -282,6 +282,46 @@ export default function Messages() {
         onHide={hideToast}
       />
 
+      {/* Settings Drawer */}
+      <BottomDrawer
+        visible={settingsVisible}
+        onClose={handleCloseSettings}
+        title="Paramètres de la boîte de réception"
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* Messages per day */}
+          <RadioButtonGroup
+            title="Nombre maximum de messages reçus par jour:"
+            options={messagesOptions}
+            selectedValue={maxMessagesPerDay}
+            onValueChange={(value) => setMaxMessagesPerDay(value as number)}
+          />
+
+          {/* Invitations per day */}
+          <RadioButtonGroup
+            title="Nombre maximum d'invitations par jour:"
+            options={invitationsOptions}
+            selectedValue={maxInvitationsPerDay}
+            onValueChange={(value) => setMaxInvitationsPerDay(value as number)}
+          />
+
+          {/* Vacation mode */}
+          <SwitchToggle
+            title="Mode vacances:"
+            description="Vous ne recevrez plus de messages et votre profil ne sera plus visible pendant cette période."
+            value={vacationMode}
+            onValueChange={setVacationMode}
+          />
+
+          {/* Save button */}
+          <GradientButton
+            title="Enregistrer"
+            onPress={handleSaveSettings}
+            style={{ marginTop: Spacing.lg }}
+          />
+        </ScrollView>
+      </BottomDrawer>
+
       <BottomNavigation activeTab="messages" />
     </SafeAreaView>
   );
