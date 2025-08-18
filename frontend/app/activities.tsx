@@ -236,40 +236,7 @@ export default function Activities() {
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNavigation}>
-        <TouchableOpacity 
-          style={styles.navItem} 
-          onPress={() => handleNavigation('/messages')}
-        >
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navLabel}>Messages</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.navItem} 
-          onPress={() => handleNavigation('/profiles')}
-        >
-          <Text style={styles.navIcon}>🔍</Text>
-          <Text style={styles.navLabel}>Profils</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={[styles.navItem, styles.navItemActive]} 
-          onPress={() => handleNavigation('/activities')}
-        >
-          <Text style={[styles.navIcon, styles.navIconActive]}>👥</Text>
-          <Text style={[styles.navLabel, styles.navLabelActive]}>Activités</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.navItem} 
-          onPress={() => handleNavigation('/profile')}
-        >
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navLabel}>Mon Profil</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavigation activeTab="activities" />
     </SafeAreaView>
   );
 }
