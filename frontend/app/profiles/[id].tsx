@@ -151,11 +151,6 @@ export default function ProfileDetail() {
   // Get profile data or fallback to default
   const profileData = profilesData[id as string] || profilesData['1'];
 
-  const handleNavigation = (route: string) => {
-    console.log(`Navigate to: ${route}`);
-    router.push(route);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <NavigationHeader showMenu={true} />
