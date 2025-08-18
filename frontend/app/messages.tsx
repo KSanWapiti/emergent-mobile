@@ -617,4 +617,96 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.lg,
     color: Colors.text.secondary,
   },
+  // Invitation styles
+  invitationCard: {
+    flexDirection: 'row',
+    paddingVertical: Spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  invitationAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: Spacing.md,
+  },
+  invitationContent: {
+    flex: 1,
+  },
+  invitationHeader: {
+    marginBottom: Spacing.md,
+  },
+  invitationInviter: {
+    fontSize: FontSizes.md,
+    color: Colors.text.primary,
+    lineHeight: 20,
+  },
+  inviterName: {
+    fontWeight: 'bold',
+    color: Colors.secondary,
+  },
+  invitationText: {
+    color: Colors.text.primary,
+  },
+  activityName: {
+    fontWeight: 'bold',
+    color: Colors.text.primary,
+  },
+  invitationDetails: {
+    marginBottom: Spacing.md,
+  },
+  invitationDate: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.secondary,
+    marginBottom: Spacing.xs,
+  },
+  invitationTime: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.secondary,
+    marginBottom: Spacing.xs,
+  },
+  invitationLocation: {
+    fontSize: FontSizes.sm,
+    color: Colors.text.secondary,
+  },
+  acceptedStatus: {
+    backgroundColor: '#E8F5E8',
+    padding: Spacing.sm,
+    borderRadius: 8,
+  },
+  acceptedText: {
+    fontSize: FontSizes.sm,
+    color: '#2E7D32',
+    fontWeight: '500',
+  },
+  invitationActions: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+  },
+  declineInvitationButton: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 20,
+    paddingVertical: Spacing.sm,
+    alignItems: 'center',
+  },
+  declineInvitationText: {
+    color: Colors.text.secondary,
+    fontSize: FontSizes.sm,
+    fontWeight: '500',
+  },
+  acceptInvitationButton: {
+    flex: 1,
+    backgroundColor: Colors.secondary,
+    borderRadius: 20,
+    paddingVertical: Spacing.sm,
+    alignItems: 'center',
+  },
+  acceptInvitationText: {
+    color: '#FFFFFF',
+    fontSize: FontSizes.sm,
+    fontWeight: '600',
+  },
 });
