@@ -150,8 +150,8 @@ export default function Profiles() {
   };
 
   const handleViewProfile = (profileId: string) => {
-    // TODO: Navigate to detailed profile view
-    console.log(`View profile: ${profileId}`);
+    // Navigate to profile detail page
+    router.push(`/profiles/${profileId}`);
   };
 
   const handleNavigation = (route: string) => {
