@@ -96,6 +96,35 @@ export default function Messages() {
     setToastVisible(false);
   };
 
+  const handleOpenSettings = () => {
+    setSettingsVisible(true);
+  };
+
+  const handleCloseSettings = () => {
+    setSettingsVisible(false);
+  };
+
+  const handleSaveSettings = () => {
+    // Save settings logic here
+    showToast('Paramètres sauvegardés avec succès', 'success');
+    setSettingsVisible(false);
+  };
+
+  // Options for radio buttons
+  const messagesOptions = [
+    { label: '0 (je préfère contacter)', value: 0 },
+    { label: '3', value: 3 },
+    { label: '5', value: 5 },
+    { label: '10', value: 10 },
+  ];
+
+  const invitationsOptions = [
+    { label: '0', value: 0 },
+    { label: '3', value: 3 },
+    { label: '5', value: 5 },
+    { label: '10', value: 10 },
+  ];
+
   const handleAction = (messageId: string, action: 'accept' | 'later' | 'decline', userName: string) => {
     if (action === 'accept') {
       // Handle accept action
