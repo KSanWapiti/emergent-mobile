@@ -42,7 +42,7 @@ interface Invitation {
 type TabType = 'messages' | 'invitations';
 
 export default function Messages() {
-  const [activeTab, setActiveTab] = useState<TabType>('invitations');
+  const [activeTab, setActiveTab] = useState<TabType>('messages');
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
