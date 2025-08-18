@@ -36,6 +36,12 @@ export default function Messages() {
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
+  const [settingsVisible, setSettingsVisible] = useState(false);
+
+  // Settings states
+  const [maxMessagesPerDay, setMaxMessagesPerDay] = useState<number>(3);
+  const [maxInvitationsPerDay, setMaxInvitationsPerDay] = useState<number>(5);
+  const [vacationMode, setVacationMode] = useState<boolean>(false);
 
   const [messages, setMessages] = useState<Message[]>([
     {
