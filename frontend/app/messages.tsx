@@ -40,7 +40,6 @@ interface Invitation {
   isAccepted?: boolean;
   acceptedDate?: string;
 }
-}
 
 type TabType = 'messages' | 'invitations';
 
