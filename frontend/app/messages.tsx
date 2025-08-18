@@ -431,7 +431,10 @@ export default function Messages() {
         </ScrollView>
       </BottomDrawer>
 
-      <BottomNavigation activeTab="messages" />
+      <BottomNavigation 
+        activeTab="messages" 
+        unreadMessagesCount={getUnreadMessagesCount()}
+      />
     </SafeAreaView>
   );
 }
