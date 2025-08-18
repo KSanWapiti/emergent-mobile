@@ -104,7 +104,7 @@ export default function Messages() {
   };
 
   const handleProcessAllMessages = () => {
-    showToast('Traitez tous les messages pour commencer la discussion.', 'success');
+    showToast('Invitat. d\'Élodie supprimée', 'error');
   };
 
   const getMessagesCount = () => messages.length;
