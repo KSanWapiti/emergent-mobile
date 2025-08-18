@@ -18,7 +18,17 @@ import { SwitchToggle } from '../components/ui/SwitchToggle';
 import { GradientButton } from '../components/ui/GradientButton';
 import { Colors, FontSizes, Spacing } from '../constants/Colors';
 
-interface Message {
+interface Invitation {
+  id: string;
+  inviterName: string;
+  inviterAvatar: string;
+  activityTitle: string;
+  activityDate: string;
+  activityTime: string;
+  activityLocation: string;
+  isAccepted?: boolean;
+  acceptedDate?: string;
+}
   id: string;
   name: string;
   avatar: string;
