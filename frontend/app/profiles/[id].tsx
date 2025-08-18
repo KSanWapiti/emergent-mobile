@@ -515,37 +515,4 @@ const styles = StyleSheet.create({
   playIcon: {
     fontSize: 20,
   },
-  bottomNavigation: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-    paddingVertical: Spacing.sm,
-    paddingHorizontal: Spacing.md,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: Spacing.sm,
-  },
-  navItemActive: {
-    backgroundColor: Colors.secondary + '10',
-    borderRadius: 10,
-  },
-  navIcon: {
-    fontSize: 24,
-    marginBottom: Spacing.xs,
-  },
-  navIconActive: {
-    color: Colors.secondary,
-  },
-  navLabel: {
-    fontSize: FontSizes.sm,
-    color: Colors.text.secondary,
-    fontWeight: '500',
-  },
-  navLabelActive: {
-    color: Colors.secondary,
-    fontWeight: '600',
-  },
 });
