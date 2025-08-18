@@ -53,6 +53,40 @@ export default function Messages() {
   const [maxInvitationsPerDay, setMaxInvitationsPerDay] = useState<number>(5);
   const [vacationMode, setVacationMode] = useState<boolean>(false);
 
+  const [invitations, setInvitations] = useState<Invitation[]>([
+    {
+      id: '1',
+      inviterName: 'Clémence',
+      inviterAvatar: 'https://images.unsplash.com/photo-1494790108755-2616c96e1d0b?w=100&h=100&fit=crop&crop=face',
+      activityTitle: 'Running Afternoon',
+      activityDate: '22 février',
+      activityTime: '16h00 - 18h00',
+      activityLocation: 'Chantilly, Oise',
+      isAccepted: true,
+      acceptedDate: '18/10'
+    },
+    {
+      id: '2',
+      inviterName: 'Inès',
+      inviterAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face',
+      activityTitle: 'Technique, respiration et objectifs accessibles',
+      activityDate: '22 février',
+      activityTime: '16h00 - 18h00',
+      activityLocation: 'Chantilly, Oise',
+      isAccepted: false
+    },
+    {
+      id: '3',
+      inviterName: 'Maëlys',
+      inviterAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face',
+      activityTitle: 'Cours de Yoga en plein air',
+      activityDate: '25 février',
+      activityTime: '10h00 - 11h30',
+      activityLocation: 'Paris 16ème, Bois de Boulogne',
+      isAccepted: false
+    }
+  ]);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
