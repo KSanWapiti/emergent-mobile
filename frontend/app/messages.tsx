@@ -18,6 +18,17 @@ import { SwitchToggle } from '../components/ui/SwitchToggle';
 import { GradientButton } from '../components/ui/GradientButton';
 import { Colors, FontSizes, Spacing } from '../constants/Colors';
 
+interface Message {
+  id: string;
+  name: string;
+  avatar: string;
+  timeAgo: string;
+  type: 'message' | 'like';
+  content: string;
+  isRead: boolean;
+  actions?: ('accept' | 'later' | 'decline')[];
+}
+
 interface Invitation {
   id: string;
   inviterName: string;
@@ -29,14 +40,6 @@ interface Invitation {
   isAccepted?: boolean;
   acceptedDate?: string;
 }
-  id: string;
-  name: string;
-  avatar: string;
-  timeAgo: string;
-  type: 'message' | 'like';
-  content: string;
-  isRead: boolean;
-  actions?: ('accept' | 'later' | 'decline')[];
 }
 
 type TabType = 'messages' | 'invitations';
