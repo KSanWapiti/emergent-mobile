@@ -10,10 +10,12 @@ import { Colors, FontSizes, Spacing } from '../../constants/Colors';
 
 interface BottomNavigationProps {
   activeTab?: 'messages' | 'profiles' | 'activities' | 'profile';
+  unreadMessagesCount?: number;
 }
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ 
-  activeTab = 'profiles' 
+  activeTab = 'profiles',
+  unreadMessagesCount = 0
 }) => {
   const handleNavigation = (route: string) => {
     router.push(route);
@@ -28,10 +30,19 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         ]} 
         onPress={() => handleNavigation('/messages')}
       >
-        <Text style={[
-          styles.navIcon,
-          activeTab === 'messages' && styles.navIconActive
-        ]}>💬</Text>
+        <View style={styles.iconContainer}>
+          <Text style={[
+            styles.navIcon,
+            activeTab === 'messages' && styles.navIconActive
+          ]}>💬</Text>
+          {unreadMessagesCount > 0 && (
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>
+                {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount.toString()}
+              </Text>
+            </View>
+          )}
+        </View>
         <Text style={[
           styles.navLabel,
           activeTab === 'messages' && styles.navLabelActive
