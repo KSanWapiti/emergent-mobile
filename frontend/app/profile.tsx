@@ -12,6 +12,7 @@ import {
 import { router } from 'expo-router';
 import { Button } from '../components/ui/Button';
 import { NavigationHeader } from '../components/ui/NavigationHeader';
+import { BottomNavigation } from '../components/ui/BottomNavigation';
 import { Colors, FontSizes, Spacing } from '../constants/Colors';
 
 const { width: screenWidth } = Dimensions.get('window');
