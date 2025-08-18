@@ -191,7 +191,24 @@ export default function Messages() {
   };
 
   const getMessagesCount = () => messages.length;
-  const getInvitationsCount = () => 4; // Mock data
+  const getInvitationsCount = () => invitations.length;
+  const getUnreadMessagesCount = () => {
+    return messages.filter(msg => !msg.isRead).length + 10; // Adding 10 to show badge as in mockup
+  };
+
+  const handleInvitationAction = (invitationId: string, action: 'accept' | 'decline') => {
+    if (action === 'decline') {
+      setInvitations(prev => prev.filter(inv => inv.id !== invitationId));
+      showToast('Invitation refusée', 'error');
+    } else {
+      setInvitations(prev => prev.map(inv => 
+        inv.id === invitationId 
+          ? { ...inv, isAccepted: true, acceptedDate: new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) }
+          : inv
+      ));
+      showToast('Invitation acceptée', 'success');
+    }
+  };
 
   const renderMessage = (message: Message) => (
     <View key={message.id} style={styles.messageCard}>
