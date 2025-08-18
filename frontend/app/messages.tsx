@@ -11,6 +11,7 @@ import {
 import { router } from 'expo-router';
 import { NavigationHeader } from '../components/ui/NavigationHeader';
 import { BottomNavigation } from '../components/ui/BottomNavigation';
+import { Toast } from '../components/ui/Toast';
 import { Colors, FontSizes, Spacing } from '../constants/Colors';
 
 interface Message {
