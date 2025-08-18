@@ -186,40 +186,7 @@ export default function Profile() {
         )}
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNavigation}>
-        <TouchableOpacity 
-          style={styles.navItem} 
-          onPress={() => handleNavigation('/messages')}
-        >
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navLabel}>Messages</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.navItem} 
-          onPress={() => handleNavigation('/profiles')}
-        >
-          <Text style={styles.navIcon}>🔍</Text>
-          <Text style={styles.navLabel}>Profils</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.navItem} 
-          onPress={() => handleNavigation('/activities')}
-        >
-          <Text style={styles.navIcon}>👥</Text>
-          <Text style={styles.navLabel}>Activités</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={[styles.navItem, styles.navItemActive]} 
-          onPress={() => handleNavigation('/profile')}
-        >
-          <Text style={[styles.navIcon, styles.navIconActive]}>👤</Text>
-          <Text style={[styles.navLabel, styles.navLabelActive]}>Mon Profil</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNavigation activeTab="profile" />
     </SafeAreaView>
   );
 }
