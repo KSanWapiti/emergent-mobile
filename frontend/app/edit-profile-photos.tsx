@@ -200,31 +200,98 @@ export default function EditProfilePhotos() {
     setToastVisible(false);
   };
 
+  const getPhotoTypeBadge = (photo: ProfilePhoto) => {
+    if (photo.type === 'portrait') return 'Portrait';
+    if (photo.type === 'full-body') return 'Plein-Pied';
+    return null;
+  };
+
   const renderPhoto = (photo: ProfilePhoto, index: number) => (
     <View key={photo.id} style={styles.photoContainer}>
       <Image source={{ uri: photo.uri }} style={styles.photo} />
       
-      {photo.isMain && (
-        <View style={styles.mainBadge}>
-          <Text style={styles.mainBadgeText}>Principale</Text>
+      {/* Heart Badge for favorites */}
+      {photo.isFavorite && (
+        <TouchableOpacity 
+          style={styles.heartBadge}
+          onPress={() => handleTogglePhotoFavorite(photo.id)}
+        >
+          <Text style={styles.heartIcon}>❤️</Text>
+        </TouchableOpacity>
+      )}
+      
+      {/* Type Badge */}
+      {getPhotoTypeBadge(photo) && (
+        <View style={styles.typeBadge}>
+          <Text style={styles.typeBadgeText}>{getPhotoTypeBadge(photo)}</Text>
         </View>
       )}
       
+      {/* Main Photo Badge */}
+      {index === 0 && (
+        <View style={styles.mainPhotoBadge}>
+          <Text style={styles.mainPhotoBadgeText}>Photo de profil</Text>
+        </View>
+      )}
+      
+      {/* Action Buttons */}
       <View style={styles.photoActions}>
-        {!photo.isMain && (
-          <TouchableOpacity 
-            style={styles.actionButton}
-            onPress={() => handleSetMainPhoto(photo.id)}
-          >
-            <Text style={styles.actionButtonText}>Principale</Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity 
+          style={styles.actionButton}
+          onPress={() => handleTogglePhotoFavorite(photo.id)}
+        >
+          <Text style={styles.actionButtonText}>
+            {photo.isFavorite ? '💔 Retirer' : '❤️ Favoris'}
+          </Text>
+        </TouchableOpacity>
         
         <TouchableOpacity 
           style={[styles.actionButton, styles.deleteButton]}
           onPress={() => handleDeletePhoto(photo.id)}
         >
-          <Text style={styles.deleteButtonText}>Supprimer</Text>
+          <Text style={styles.deleteButtonText}>🗑 Supprimer</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  const renderVideo = () => (
+    <View style={styles.videoContainer}>
+      <View style={styles.videoThumbnailContainer}>
+        <Image source={{ uri: video.thumbnail }} style={styles.videoThumbnail} />
+        
+        {/* Play Button */}
+        <TouchableOpacity style={styles.playButton}>
+          <Text style={styles.playIcon}>▶️</Text>
+        </TouchableOpacity>
+        
+        {/* Heart Badge for video */}
+        {video.isFavorite && (
+          <TouchableOpacity 
+            style={styles.heartBadge}
+            onPress={handleToggleVideoFavorite}
+          >
+            <Text style={styles.heartIcon}>❤️</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      
+      {/* Video Actions */}
+      <View style={styles.videoActions}>
+        <TouchableOpacity 
+          style={styles.actionButton}
+          onPress={handleToggleVideoFavorite}
+        >
+          <Text style={styles.actionButtonText}>
+            {video.isFavorite ? '💔 Retirer' : '❤️ Favoris'}
+          </Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.deleteButton]}
+          onPress={handleDeleteVideo}
+        >
+          <Text style={styles.deleteButtonText}>🗑 Supprimer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -236,6 +303,15 @@ export default function EditProfilePhotos() {
         <Text style={styles.addPhotoPlusText}>+</Text>
       </View>
       <Text style={styles.addPhotoText}>Ajouter une photo</Text>
+    </TouchableOpacity>
+  );
+
+  const renderAddVideoSlot = () => (
+    <TouchableOpacity style={styles.addVideoContainer} onPress={handleAddVideo}>
+      <View style={styles.addVideoPlus}>
+        <Text style={styles.addVideoPlusText}>+</Text>
+      </View>
+      <Text style={styles.addVideoText}>Ajouter une vidéo</Text>
     </TouchableOpacity>
   );
 
