@@ -310,11 +310,28 @@ const styles = StyleSheet.create({
   aboutSection: {
     padding: Spacing.lg,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.lg,
+  },
   sectionTitle: {
     fontSize: FontSizes.xl,
     fontWeight: 'bold',
     color: Colors.text.primary,
-    marginBottom: Spacing.lg,
+    margin: 0,
+  },
+  editButton: {
+    backgroundColor: Colors.secondary,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: 20,
+  },
+  editButtonText: {
+    color: '#FFFFFF',
+    fontSize: FontSizes.sm,
+    fontWeight: '600',
   },
   detailsContainer: {
     flexDirection: 'row',
