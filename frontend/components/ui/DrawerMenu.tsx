@@ -27,8 +27,18 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({ visible, onClose }) => {
       router.push('/profile');
     } else if (route === '/activities') {
       router.push('/activities');
+    } else if (route === '/profiles') {
+      router.push('/profiles');
+    } else if (route === '/messages') {
+      router.push('/messages');
+    } else if (route === '/info') {
+      router.push('/info');
+    } else if (route === '/faq') {
+      router.push('/faq');
+    } else if (route === '/support') {
+      router.push('/support');
     } else {
-      // TODO: Implement other routes
+      // TODO: Implement other routes (share, privacy)
       console.log(`Navigate to: ${route}`);
     }
   };
