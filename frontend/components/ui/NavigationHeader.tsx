@@ -19,6 +19,7 @@ interface NavigationHeaderProps {
 export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
   onMenuPress,
   showMenu = true,
+  notificationsCount = 5,
 }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
@@ -32,6 +33,10 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
 
   const handleCloseMenu = () => {
     setIsMenuVisible(false);
+  };
+
+  const handleNotificationsPress = () => {
+    router.push('/notifications');
   };
 
   return (
