@@ -105,7 +105,15 @@ export default function Profile() {
 
         {/* About Me Section */}
         <View style={styles.aboutSection}>
-          <Text style={styles.sectionTitle}>À propos de moi</Text>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>À propos de moi</Text>
+            <TouchableOpacity 
+              style={styles.editButton}
+              onPress={() => router.push('/edit-profile')}
+            >
+              <Text style={styles.editButtonText}>Edit</Text>
+            </TouchableOpacity>
+          </View>
           
           <View style={styles.detailsContainer}>
             {/* Left Column */}
