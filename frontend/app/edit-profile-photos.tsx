@@ -20,6 +20,15 @@ interface ProfilePhoto {
   id: string;
   uri: string;
   isMain: boolean;
+  type?: 'portrait' | 'full-body' | 'regular';
+  isFavorite?: boolean;
+}
+
+interface ProfileVideo {
+  id: string;
+  uri: string;
+  thumbnail: string;
+  isFavorite?: boolean;
 }
 
 export default function EditProfilePhotos() {
@@ -30,21 +39,55 @@ export default function EditProfilePhotos() {
     {
       id: '1',
       uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face',
-      isMain: true
+      isMain: true,
+      type: 'regular',
+      isFavorite: true
     },
     {
       id: '2', 
-      uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face',
-      isMain: false
+      uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face',
+      isMain: false,
+      type: 'full-body',
+      isFavorite: false
     },
     {
       id: '3',
       uri: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face',
-      isMain: false
+      isMain: false,
+      type: 'regular',
+      isFavorite: true
+    },
+    {
+      id: '4',
+      uri: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&crop=face',
+      isMain: false,
+      type: 'regular',
+      isFavorite: false
+    },
+    {
+      id: '5',
+      uri: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face',
+      isMain: false,
+      type: 'regular',
+      isFavorite: true
+    },
+    {
+      id: '6',
+      uri: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=300&h=300&fit=crop&crop=face',
+      isMain: false,
+      type: 'portrait',
+      isFavorite: false
     }
   ]);
 
-  const maxPhotos = 6;
+  const [video, setVideo] = useState<ProfileVideo>({
+    id: 'video1',
+    uri: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=300&fit=crop&crop=face',
+    isFavorite: true
+  });
+
+  const maxPhotos = 8; // Increased to match mockup
 
   const handleAddPhoto = () => {
     if (photos.length >= maxPhotos) {
