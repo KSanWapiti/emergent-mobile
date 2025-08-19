@@ -6,12 +6,14 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
+import { router } from 'expo-router';
 import { DrawerMenu } from './DrawerMenu';
 import { Colors, Spacing, FontSizes } from '../../constants/Colors';
 
 interface NavigationHeaderProps {
   onMenuPress?: () => void;
   showMenu?: boolean;
+  notificationsCount?: number;
 }
 
 export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
