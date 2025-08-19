@@ -143,6 +143,50 @@ export default function EditProfilePhotos() {
     setToastVisible(true);
   };
 
+  const handleTogglePhotoFavorite = (photoId: string) => {
+    setPhotos(prev => prev.map(photo => 
+      photo.id === photoId 
+        ? { ...photo, isFavorite: !photo.isFavorite }
+        : photo
+    ));
+  };
+
+  const handleToggleVideoFavorite = () => {
+    setVideo(prev => ({
+      ...prev,
+      isFavorite: !prev.isFavorite
+    }));
+  };
+
+  const handleDeleteVideo = () => {
+    Alert.alert(
+      'Supprimer la vidéo',
+      'Êtes-vous sûr de vouloir supprimer cette vidéo ?',
+      [
+        { text: 'Annuler', style: 'cancel' },
+        {
+          text: 'Supprimer',
+          style: 'destructive',
+          onPress: () => {
+            setVideo(null);
+          }
+        }
+      ]
+    );
+  };
+
+  const handleAddVideo = () => {
+    Alert.alert(
+      'Ajouter une vidéo',
+      'Choisissez une option',
+      [
+        { text: 'Caméra', onPress: () => console.log('Record video') },
+        { text: 'Galerie', onPress: () => console.log('Select video from gallery') },
+        { text: 'Annuler', style: 'cancel' }
+      ]
+    );
+  };
+
   const handleSave = () => {
     setToastMessage('Photos sauvegardées avec succès !');
     setToastVisible(true);
