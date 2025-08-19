@@ -62,7 +62,21 @@ export const NavigationHeader: React.FC<NavigationHeaderProps> = ({
             <Text style={styles.logoText}>tyte</Text>
           </View>
           
-          <View style={styles.rightSpace} />
+          <TouchableOpacity 
+            onPress={handleNotificationsPress} 
+            style={styles.notificationButton}
+          >
+            <View style={styles.notificationIconContainer}>
+              <Text style={styles.notificationIcon}>🔔</Text>
+              {notificationsCount > 0 && (
+                <View style={styles.notificationBadge}>
+                  <Text style={styles.notificationBadgeText}>
+                    {notificationsCount > 99 ? '99+' : notificationsCount.toString()}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
 
