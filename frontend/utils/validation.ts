@@ -28,12 +28,7 @@ export const step2Schema = z.object({
   dateOfBirth: z
     .string()
     .min(1, 'La date de naissance est requise')
-    .refine((val) => {
-      const date = new Date(val);
-      const now = new Date();
-      const age = now.getFullYear() - date.getFullYear();
-      return age >= 18 && age <= 100;
-    }, 'Vous devez avoir entre 18 et 100 ans'),
+    .regex(/^\d{2}\/\d{2}\/\d{4}$/, 'Format invalide. Utilisez DD/MM/YYYY'),
 });
 
 export const step3Schema = z.object({
@@ -49,6 +44,51 @@ export const step3Schema = z.object({
     .max(50, 'La ville ne peut pas dépasser 50 caractères'),
 });
 
+export const step4Schema = z.object({
+  portraitPhoto: z
+    .string()
+    .min(1, 'La photo de portrait est requise'),
+  fullBodyPhoto: z
+    .string()
+    .min(1, 'La photo en pied est requise'),
+});
+
+export const step5Schema = z.object({
+  maxMessagesPerDay: z
+    .enum(['0', '3', '5', '10'])
+    .refine((val) => val !== '', 'Veuillez sélectionner le nombre de messages'),
+  maxInvitationsPerDay: z
+    .enum(['0', '3', '5', '10'])
+    .refine((val) => val !== '', 'Veuillez sélectionner le nombre d\'invitations'),
+});
+
+export const step6Schema = z.object({
+  ethnicType: z.string().optional(),
+  religion: z.string().optional(),
+  hairColor: z.string().optional(),
+  hairLength: z.string().optional(),
+  socialCategory: z.string().optional(),
+  smoker: z.string().optional(),
+  numberOfChildren: z.string().optional(),
+  spokenLanguages: z.array(z.string()).optional(),
+  hobbies: z.string().optional(),
+  freePresentation: z.string().optional(),
+});
+
+export const step7Schema = z.object({
+  video: z.string().optional(),
+  additionalPhoto1: z.string().optional(),
+  additionalPhoto2: z.string().optional(),
+  additionalPhoto3: z.string().optional(),
+  additionalPhoto4: z.string().optional(),
+  additionalPhoto5: z.string().optional(),
+  additionalPhoto6: z.string().optional(),
+});
+
 export type Step1FormData = z.infer<typeof step1Schema>;
 export type Step2FormData = z.infer<typeof step2Schema>;
 export type Step3FormData = z.infer<typeof step3Schema>;
+export type Step4FormData = z.infer<typeof step4Schema>;
+export type Step5FormData = z.infer<typeof step5Schema>;
+export type Step6FormData = z.infer<typeof step6Schema>;
+export type Step7FormData = z.infer<typeof step7Schema>;

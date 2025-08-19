@@ -3,13 +3,21 @@ import { SafeAreaView, Alert } from 'react-native';
 import { Step1Form } from '../../components/forms/Step1Form';
 import { Step2Form } from '../../components/forms/Step2Form';
 import { Step3Form } from '../../components/forms/Step3Form';
-import { Step1FormData, Step2FormData, Step3FormData } from '../../utils/validation';
+import { Step4Form } from '../../components/forms/Step4Form';
+import { Step5Form } from '../../components/forms/Step5Form';
+import { Step6Form } from '../../components/forms/Step6Form';
+import { Step7Form } from '../../components/forms/Step7Form';
+import { Step1FormData, Step2FormData, Step3FormData, Step4FormData, Step5FormData, Step6FormData, Step7FormData } from '../../utils/validation';
 import { router } from 'expo-router';
 
 type RegistrationData = {
   step1?: Step1FormData;
   step2?: Step2FormData;
   step3?: Step3FormData;
+  step4?: Step4FormData;
+  step5?: Step5FormData;
+  step6?: Step6FormData;
+  step7?: Step7FormData;
 };
 
 export default function RegisterScreen() {
@@ -29,12 +37,45 @@ export default function RegisterScreen() {
     setCurrentStep(3);
   };
 
-  const handleStep3Next = async (data: Step3FormData) => {
+  const handleStep3Next = (data: Step3FormData) => {
+    console.log('Step 3 data:', data);
+    setRegistrationData(prev => ({ ...prev, step3: data }));
+    setCurrentStep(4);
+  };
+
+  const handleStep4Next = (data: Step4FormData) => {
+    console.log('Step 4 data:', data);
+    setRegistrationData(prev => ({ ...prev, step4: data }));
+    setCurrentStep(5);
+  };
+
+  const handleStep5Next = (data: Step5FormData) => {
+    console.log('Step 5 data:', data);
+    setRegistrationData(prev => ({ ...prev, step5: data }));
+    setCurrentStep(6);
+  };
+
+  const handleStep6Next = (data: Step6FormData) => {
+    console.log('Step 6 data:', data);
+    setRegistrationData(prev => ({ ...prev, step6: data }));
+    setCurrentStep(7);
+  };
+
+  const handleStep6Skip = () => {
+    console.log('Step 6 skipped - navigating to step 7');
+    setCurrentStep(7);
+  };
+
+  const handleStep7Next = async (data: Step7FormData) => {
     setLoading(true);
     try {
       const completeData = {
         ...registrationData.step1!,
         ...registrationData.step2!,
+        ...registrationData.step3!,
+        ...registrationData.step4!,
+        ...registrationData.step5!,
+        ...registrationData.step6!,
         ...data,
       };
 
@@ -45,10 +86,51 @@ export default function RegisterScreen() {
       
       Alert.alert(
         'Inscription réussie!',
-        'Votre compte Tyte a été créé avec succès.',
+        'Votre profil Tyte a été créé avec succès. Bienvenue dans la communauté !',
         [
           {
-            text: 'Continuer',
+            text: 'Commencer',
+            onPress: () => router.replace('/welcome')
+          }
+        ]
+      );
+      
+    } catch (error) {
+      console.error('Registration failed:', error);
+      Alert.alert(
+        'Erreur',
+        'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.',
+        [{ text: 'OK' }]
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStep7Skip = async () => {
+    setLoading(true);
+    try {
+      const completeData = {
+        ...registrationData.step1!,
+        ...registrationData.step2!,
+        ...registrationData.step3!,
+        ...registrationData.step4!,
+        ...registrationData.step5!,
+        ...registrationData.step6!,
+        // Step 7 data is optional, so we don't include it
+      };
+
+      console.log('Complete registration data (step 7 skipped):', completeData);
+      
+      // Mock API call - simulate successful registration
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      Alert.alert(
+        'Inscription réussie!',
+        'Votre profil Tyte a été créé avec succès. Vous pourrez ajouter plus de photos et vidéos plus tard. Bienvenue dans la communauté !',
+        [
+          {
+            text: 'Commencer',
             onPress: () => router.replace('/welcome')
           }
         ]
@@ -94,6 +176,38 @@ export default function RegisterScreen() {
           onNext={handleStep3Next}
           onBack={handleBack}
           defaultValues={registrationData.step3}
+        />
+      )}
+      {currentStep === 4 && (
+        <Step4Form
+          onNext={handleStep4Next}
+          onBack={handleBack}
+          defaultValues={registrationData.step4}
+        />
+      )}
+      {currentStep === 5 && (
+        <Step5Form
+          onNext={handleStep5Next}
+          onBack={handleBack}
+          defaultValues={registrationData.step5}
+          loading={loading}
+        />
+      )}
+      {currentStep === 6 && (
+        <Step6Form
+          onNext={handleStep6Next}
+          onSkip={handleStep6Skip}
+          onBack={handleBack}
+          defaultValues={registrationData.step6}
+          loading={loading}
+        />
+      )}
+      {currentStep === 7 && (
+        <Step7Form
+          onNext={handleStep7Next}
+          onSkip={handleStep7Skip}
+          onBack={handleBack}
+          defaultValues={registrationData.step7}
           loading={loading}
         />
       )}

@@ -3,12 +3,11 @@ import {
   TextInput,
   View,
   Text,
-  StyleSheet,
   TextInputProps,
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import { Colors, Spacing, BorderRadius, FontSizes } from '../../constants/Colors';
+import { InputStyles } from '../../styles/InputStyles';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -24,60 +23,26 @@ export const Input = forwardRef<TextInput, InputProps>(
     const hasError = !!error;
 
     return (
-      <View style={[styles.container, containerStyle]}>
+      <View style={[InputStyles.container, containerStyle]}>
         {label && (
-          <Text style={[styles.label, labelStyle]}>
+          <Text style={[InputStyles.label, labelStyle]}>
             {label}
-            {required && <Text style={styles.required}> *</Text>}
+            {required && <Text style={InputStyles.required}> *</Text>}
           </Text>
         )}
         <TextInput
           ref={ref}
           style={[
-            styles.input,
-            hasError && styles.inputError,
+            InputStyles.input,
+            hasError && InputStyles.inputError,
             inputStyle,
           ]}
-          placeholderTextColor={Colors.text.secondary}
+          placeholderTextColor="#777777"
           autoCapitalize="none"
           {...props}
         />
-        {hasError && <Text style={styles.errorText}>{error}</Text>}
+        {hasError && <Text style={InputStyles.errorText}>{error}</Text>}
       </View>
     );
   }
 );
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: Spacing.md,
-  },
-  label: {
-    fontSize: FontSizes.sm,
-    fontWeight: '500',
-    color: Colors.text.secondary,
-    marginBottom: Spacing.xs,
-  },
-  required: {
-    color: Colors.error,
-  },
-  input: {
-    borderWidth: 1.5,
-    borderColor: Colors.border.light,
-    borderRadius: BorderRadius.md,
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.sm + 2,
-    fontSize: FontSizes.md,
-    color: Colors.text.primary,
-    backgroundColor: '#FFFFFF',
-    minHeight: 48, // Accessibility minimum
-  },
-  inputError: {
-    borderColor: Colors.error,
-  },
-  errorText: {
-    fontSize: FontSizes.xs,
-    color: Colors.error,
-    marginTop: Spacing.xs,
-  },
-});

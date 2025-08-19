@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import { StepIndicator } from '../ui/StepIndicator';
+import { ProgressBar } from '../ui/ProgressBar';
+import { StepHeader } from '../ui/StepHeader';
 import { step1Schema, Step1FormData } from '../../utils/validation';
-import { Colors, Spacing, FontSizes } from '../../constants/Colors';
+import { FormStyles } from '../../styles/FormStyles';
 
 interface Step1FormProps {
   onNext: (data: Step1FormData) => void;
@@ -32,19 +33,17 @@ export const Step1Form: React.FC<Step1FormProps> = ({
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={FormStyles.stepContainer}
     >
-      <View style={styles.content}>
-        <StepIndicator totalSteps={3} currentStep={1} />
-        
-        <View style={styles.header}>
-          <Text style={styles.title}>Choisissez votre pseudo</Text>
-          <Text style={styles.subtitle}>
-            Ce sera votre identité sur Tyte. Choisissez quelque chose qui vous représente !
-          </Text>
-        </View>
+      <ProgressBar progress={20} />
 
-        <View style={styles.form}>
+      <View style={FormStyles.stepContent}>
+        <StepHeader
+          title="Choisissez votre pseudo"
+          subtitle="Votre @unique dans l'app!"
+        />
+
+        <View style={FormStyles.stepForm}>
           <Controller
             control={control}
             name="pseudo"
@@ -53,7 +52,7 @@ export const Step1Form: React.FC<Step1FormProps> = ({
                 label="Pseudo"
                 value={value}
                 onChangeText={onChange}
-                placeholder="Ex: alex123"
+                placeholder="Ex: JeanSportif23"
                 autoCapitalize="none"
                 autoCorrect={false}
                 error={errors.pseudo?.message}
@@ -65,51 +64,15 @@ export const Step1Form: React.FC<Step1FormProps> = ({
         </View>
       </View>
 
-      <View style={styles.footer}>
+      <View style={FormStyles.stepFooter}>
         <Button
-          title="Continuer"
+          title="Suivant"
           onPress={handleSubmit(onNext)}
           disabled={!isValid}
           size="large"
+          style={FormStyles.fullWidthButton}
         />
       </View>
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.background.primary,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.xl,
-  },
-  header: {
-    marginBottom: Spacing.xl,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: FontSizes.title,
-    fontWeight: 'bold',
-    color: Colors.text.primary,
-    textAlign: 'center',
-    marginBottom: Spacing.md,
-  },
-  subtitle: {
-    fontSize: FontSizes.md,
-    color: Colors.text.secondary,
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  form: {
-    flex: 1,
-  },
-  footer: {
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.xl,
-    paddingTop: Spacing.lg,
-  },
-});
