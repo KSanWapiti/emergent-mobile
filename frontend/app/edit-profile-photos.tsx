@@ -325,7 +325,7 @@ export default function EditProfilePhotos() {
           <Text style={styles.backArrow}>←</Text>
         </TouchableOpacity>
         <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerTitle}>Modifier les photos</Text>
+          <Text style={styles.headerTitle}>Modifier mes médias</Text>
         </View>
         <View style={styles.headerRight} />
       </View>
